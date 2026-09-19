@@ -3,256 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mussyyab Tariq | Computer Science Undergraduate</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <title>Mussyyab Tariq | Full-Stack Engineer</title>
+  <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
-    :root {
-      --bg-dark: #07090e;
-      --card-bg: rgba(15, 23, 42, 0.75);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --accent-cyan: #06b6d4;
-      --accent-indigo: #6366f1;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background-image: 
-        radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.12), transparent 45%),
-        radial-gradient(circle at 85% 75%, rgba(99, 102, 241, 0.12), transparent 45%);
-      background-attachment: fixed;
-    }
-
-    /* Navbar */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(7, 9, 14, 0.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--card-border);
-      z-index: 100;
-      padding: 16px 24px;
-    }
-
-    .nav-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.15rem;
-    }
-
-    .nav-logo i {
-      color: var(--accent-cyan);
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 24px;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover, .nav-links a.active {
-      color: #fff;
-    }
-
-    .nav-cta {
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
-      color: #fff !important;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-    }
-
-    /* Hero Section */
-    .hero-wrapper {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 140px 24px 80px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .badge-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(6, 182, 212, 0.1);
-      border: 1px solid rgba(6, 182, 212, 0.25);
-      color: var(--accent-cyan);
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 6px 14px;
-      border-radius: 20px;
-      margin-bottom: 24px;
-      font-family: 'JetBrains Mono', monospace;
-      width: fit-content;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      background: #10b981;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #10b981;
-    }
-
-    .hero-title {
-      font-size: 3.4rem;
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-description {
-      color: var(--text-muted);
-      font-size: 1.15rem;
-      line-height: 1.7;
-      max-width: 780px;
-      margin-bottom: 36px;
-    }
-
-    .action-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 50px;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
-      color: #fff;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 18px rgba(6, 182, 212, 0.3);
-      transition: transform 0.2s;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-main);
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.2s, border-color 0.2s;
-    }
-
-    .btn-secondary:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .highlight-strip {
+    .hero-layout {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-top: 20px;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 60px;
     }
-
-    .stat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      padding: 24px;
-      border-radius: 16px;
-      backdrop-filter: blur(10px);
+    .profile-frame {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-
-    .stat-card span {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      font-family: 'JetBrains Mono', monospace;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .stat-card strong {
-      font-size: 1.15rem;
-      color: #fff;
-      font-weight: 700;
-    }
-
-    footer {
+    .profile-card {
+      padding: 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-card);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      max-width: 310px;
+      width: 100%;
       text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      border-top: 1px solid var(--card-border);
-      padding: 24px;
-      margin-top: auto;
+    }
+    .profile-card img {
+      width: 100%;
+      height: 330px;
+      object-fit: cover;
+      border-radius: 16px;
+      display: block;
+    }
+    .profile-caption {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-card);
+    }
+    .profile-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.3px;
+    }
+    .profile-role {
+      font-size: 0.8rem;
+      color: var(--accent-cyan);
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 2px;
     }
 
     @media (max-width: 850px) {
-      .hero-title { font-size: 2.3rem; }
-      .highlight-strip { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+      .hero-layout {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .profile-frame {
+        order: -1;
+      }
     }
   </style>
 </head>
 <body>
+  <canvas id="bg-canvas"></canvas>
 
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <a href="index.html" class="nav-logo">
@@ -261,58 +77,82 @@
       </a>
       <ul class="nav-links">
         <li><a href="index.html" class="active"><i data-lucide="home"></i> Home</a></li>
+        <li><a href="about.html"><i data-lucide="user"></i> About & Journey</a></li>
         <li><a href="projects.html"><i data-lucide="layers"></i> Projects</a></li>
         <li><a href="contact.html" class="nav-cta"><i data-lucide="mail"></i> Connect</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <main class="hero-wrapper">
-    <div class="badge-status">
-      <span class="dot"></span> BSCS (2024–2028) • GCUF Active Student
+  <div class="wrapper">
+    <section class="hero" style="padding-top: 40px;">
+      <div class="hero-layout">
+        <div>
+          <div class="badge">
+            <span class="badge-dot"></span> Available for Web Projects
+          </div>
+          <h1>
+            Engineering Modern <br>
+            <span class="gradient-text">Web Applications.</span>
+          </h1>
+          <p>
+            Specializing in scalable backend architectures, clean database systems, and interactive user interfaces designed with performance and precision.
+          </p>
+          <div class="btn-group">
+            <a href="projects.html" class="btn-primary">
+              Explore Work <i data-lucide="arrow-right"></i>
+            </a>
+            <a href="contact.html" class="btn-secondary">
+              Get in Touch <i data-lucide="mail"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="profile-frame">
+          <div class="glass-card profile-card">
+            <img src="profile.jpg" alt="Mussyyab Tariq">
+            <div class="profile-caption">
+              <div class="profile-name">Mussyyab Tariq</div>
+              <div class="profile-role">Full-Stack Engineer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Architecture Strengths -->
+    <div class="cards-grid">
+      <div class="glass-card">
+        <div class="icon-box"><i data-lucide="server"></i></div>
+        <h3>Backend & API Architecture</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 10px;">
+          Designing high-performance REST endpoints and modular server structures using Node.js and Express.
+        </p>
+      </div>
+
+      <div class="glass-card">
+        <div class="icon-box"><i data-lucide="database"></i></div>
+        <h3>Database & Schema Design</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 10px;">
+          Structuring relational and document data workflows with MongoDB Atlas and strict validation schemas.
+        </p>
+      </div>
+
+      <div class="glass-card">
+        <div class="icon-box"><i data-lucide="cpu"></i></div>
+        <h3>Interactive UI & Logic</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 10px;">
+          Building responsive client interfaces using modern JavaScript, optimized DOM logic, and WebGL graphics.
+        </p>
+      </div>
     </div>
 
-    <h1 class="hero-title">
-      Building modern web apps & <br>
-      <span class="gradient-text">interactive digital experiences.</span>
-    </h1>
+    <footer>
+      <p>&copy; 2026 Mussyyab Tariq. Built with Node.js & Three.js</p>
+    </footer>
+  </div>
 
-    <p class="hero-description">
-      Hi, I'm <strong>Mussyyab Tariq</strong>. A Computer Science undergraduate focused on crafting high-performance full-stack web applications, practical institutional tools, and clean digital systems.
-    </p>
-
-    <div class="action-group">
-      <a href="projects.html" class="btn-primary">
-        <i data-lucide="layers"></i> Explore Live Projects
-      </a>
-      <a href="contact.html" class="btn-secondary">
-        <i data-lucide="mail"></i> Get In Touch
-      </a>
-    </div>
-
-    <div class="highlight-strip">
-      <div class="stat-card">
-        <span>Academic Standing</span>
-        <strong>BS Computer Science (GCUF)</strong>
-      </div>
-      <div class="stat-card">
-        <span>Core Production Tools</span>
-        <strong>Resume Studio & Attendance ERP</strong>
-      </div>
-      <div class="stat-card">
-        <span>Technical Focus</span>
-        <strong>Full-Stack Web Development</strong>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <p>&copy; 2026 Mussyyab Tariq. Built with Node.js & Express</p>
-  </footer>
-
-  <script>
-    lucide.createIcons();
-  </script>
+  <script src="app.js"></script>
+  <script>lucide.createIcons();</script>
 </body>
 </html>

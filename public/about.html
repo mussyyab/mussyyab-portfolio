@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About & Journey | Mussyyab Tariq</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Vector Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Three.js 3D Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    .timeline-container {
+      position: relative;
+      margin-top: 40px;
+      padding-left: 32px;
+      border-left: 2px solid var(--border-card);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 40px;
+    }
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -41px;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      border: 3px solid var(--bg-main);
+      box-shadow: 0 0 10px var(--accent-cyan);
+    }
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      margin-bottom: 6px;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .skill-tag {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-card);
+      padding: 14px 18px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+    .skill-tag i {
+      color: var(--accent-indigo);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <i data-lucide="terminal"></i>
+        <span>Mussyyab.dev</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html"><i data-lucide="home"></i> Home</a></li>
+        <li><a href="about.html" class="active"><i data-lucide="user"></i> About & Journey</a></li>
+        <li><a href="projects.html"><i data-lucide="layers"></i> Projects</a></li>
+        <li><a href="contact.html" class="nav-cta"><i data-lucide="mail"></i> Connect</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="wrapper" style="padding-top: 140px;">
+    <!-- Intro Section -->
+    <div style="max-width: 800px; margin-bottom: 50px;">
+      <div class="badge">
+        <span class="badge-dot"></span> Background & Expertise
+      </div>
+      <h1 style="font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px;">
+        Engineering With <span class="gradient-text">Logic & Purpose.</span>
+      </h1>
+      <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">
+        I am a Computer Science student and Full-Stack Developer focused on building clean backend APIs, structured databases, and responsive modern web interfaces. My focus is writing performant code, understanding core computer science principles, and shipping dependable applications.
+      </p>
+    </div>
+
+    <!-- Timeline & Journey Section -->
+    <div class="glass-card" style="margin-bottom: 40px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <div class="icon-box" style="margin-bottom: 0;"><i data-lucide="milestone"></i></div>
+        <h2 style="font-size: 1.5rem; font-weight: 700;">Education & Journey Timeline</h2>
+      </div>
+
+      <div class="timeline-container">
+        <!-- Milestone 1 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2024 — 2028 (Present)</div>
+          <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 6px;">BS Computer Science</h3>
+          <p style="color: var(--accent-indigo); font-weight: 500; font-size: 0.95rem; margin-bottom: 8px;">Government College University Faisalabad (GCUF)</p>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+            Building strong foundations in computer science, core programming, data structures, algorithms, and computational logic.
+          </p>
+        </div>
+
+        <!-- Milestone 2 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2025 — Present</div>
+          <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 6px;">Full-Stack Web Development</h3>
+          <p style="color: var(--accent-indigo); font-weight: 500; font-size: 0.95rem; margin-bottom: 8px;">1+ Year Practical Development & Projects</p>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+            Transitioned core logic into real-world web applications. Architected Node.js/Express backend servers, integrated MongoDB databases, and deployed cloud web services.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Technical Stack Section -->
+    <div class="glass-card">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <div class="icon-box" style="margin-bottom: 0;"><i data-lucide="cpu"></i></div>
+        <h2 style="font-size: 1.5rem; font-weight: 700;">Core Technical Competencies</h2>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Technologies and toolsets applied across daily engineering workflows.</p>
+
+      <div class="skills-grid">
+        <div class="skill-tag"><i data-lucide="file-code"></i> HTML5 & Semantic Web</div>
+        <div class="skill-tag"><i data-lucide="palette"></i> CSS3 & Modern Styling</div>
+        <div class="skill-tag"><i data-lucide="file-json"></i> JavaScript (ES6+)</div>
+        <div class="skill-tag"><i data-lucide="atom"></i> React.js</div>
+        <div class="skill-tag"><i data-lucide="server"></i> Node.js & Express</div>
+        <div class="skill-tag"><i data-lucide="database"></i> MongoDB & Atlas</div>
+        <div class="skill-tag"><i data-lucide="network"></i> RESTful APIs</div>
+        <div class="skill-tag"><i data-lucide="code-2"></i> C++ & Core Logic</div>
+        <div class="skill-tag"><i data-lucide="cloud"></i> Render Cloud & CI/CD</div>
+        <div class="skill-tag"><i data-lucide="git-branch"></i> Git & GitHub Versioning</div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Mussyyab Tariq. Built with Node.js & Three.js</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

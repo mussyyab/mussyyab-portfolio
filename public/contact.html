@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact & Communication | Mussyyab Tariq</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Vector Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Three.js 3D Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 36px;
+      margin-top: 30px;
+    }
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .info-item .icon-box {
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+    .info-item h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+    .info-item a, .info-item p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-decoration: none;
+      word-break: break-all;
+      transition: color 0.2s ease;
+    }
+    .info-item a:hover {
+      color: var(--accent-cyan);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-card);
+      border-radius: 8px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s ease;
+      outline: none;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent-indigo);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .form-alert {
+      display: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    .alert-success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      color: #10b981;
+    }
+    .alert-error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+    }
+
+    @media (max-width: 850px) {
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <i data-lucide="terminal"></i>
+        <span>Mussyyab.dev</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html"><i data-lucide="home"></i> Home</a></li>
+        <li><a href="about.html"><i data-lucide="user"></i> About & Journey</a></li>
+        <li><a href="projects.html"><i data-lucide="layers"></i> Projects</a></li>
+        <li><a href="contact.html" class="active nav-cta"><i data-lucide="mail"></i> Connect</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="wrapper" style="padding-top: 140px;">
+    <div style="max-width: 750px;">
+      <div class="badge">
+        <span class="badge-dot"></span> Direct Communication Channel
+      </div>
+      <h1 style="font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px;">
+        Let's Discuss <span class="gradient-text">New Engineering.</span>
+      </h1>
+      <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.7;">
+        Whether you have technical queries, collaboration proposals, or software specifications to discuss, reach out directly through this secure channel.
+      </p>
+    </div>
+
+    <div class="contact-layout">
+      <!-- Direct Contact Details -->
+      <div class="glass-card">
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 24px;">Direct Channels</h3>
+
+        <div class="info-item">
+          <div class="icon-box"><i data-lucide="mail"></i></div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:mussyyab447@gmail.com">mussyyab447@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-box"><i data-lucide="linkedin"></i></div>
+          <div>
+            <h4>LinkedIn Profile</h4>
+            <a href="https://www.linkedin.com/in/mussyyab-tariq-a51861352" target="_blank">linkedin.com/in/mussyyab-tariq</a>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-box"><i data-lucide="github"></i></div>
+          <div>
+            <h4>GitHub Workspace</h4>
+            <a href="https://github.com/mussyyab" target="_blank">github.com/mussyyab</a>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-box"><i data-lucide="shield-check"></i></div>
+          <div>
+            <h4>Server Architecture</h4>
+            <p>Connected to MongoDB Atlas with live notification sync</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Interactive Contact Form linked with Backend -->
+      <div class="glass-card">
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 20px;">Send a Message</h3>
+        
+        <div id="formAlert" class="form-alert"></div>
+
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" class="form-input" placeholder="e.g. John Doe" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Your Email Address</label>
+            <input type="email" id="email" name="email" class="form-input" placeholder="e.g. contact@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message & Details</label>
+            <textarea id="message" name="message" class="form-textarea" placeholder="Describe project requirements or queries..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+            <i data-lucide="send"></i> Transmit Message
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Mussyyab Tariq. Built with Node.js & Three.js</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    lucide.createIcons();
+
+    const form = document.getElementById('contactForm');
+    const alertBox = document.getElementById('formAlert');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Transmitting...";
+
+      const payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+      };
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          alertBox.className = 'form-alert alert-success';
+          alertBox.innerText = 'Message recorded directly to database. Mussyyab will review it soon.';
+          alertBox.style.display = 'block';
+          form.reset();
+        } else {
+          throw new Error('Transmission failed');
+        }
+      } catch (err) {
+        alertBox.className = 'form-alert alert-error';
+        alertBox.innerText = 'Unable to deliver message right now. Please email directly.';
+        alertBox.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i data-lucide="send"></i> Transmit Message';
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
