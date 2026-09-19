@@ -1,269 +1,316 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mussyyab Tariq — Full-Stack Developer & AI Solutions</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass-card {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mussyyab Tariq | Computer Science Undergraduate & Full-Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --card-bg: rgba(15, 23, 42, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-cyan: #06b6d4;
+      --accent-indigo: #6366f1;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 20% 10%, rgba(6, 182, 212, 0.12), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.12), transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--card-border);
+      z-index: 100;
+      padding: 16px 24px;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+    }
+
+    .nav-logo i {
+      color: var(--accent-cyan);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #fff;
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+      color: #fff !important;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .hero-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 140px 24px 80px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      color: var(--accent-cyan);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      width: fit-content;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #10b981;
+    }
+
+    .hero-title {
+      font-size: 3.4rem;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-description {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      line-height: 1.7;
+      max-width: 780px;
+      margin-bottom: 36px;
+    }
+
+    .action-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 50px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(6, 182, 212, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .highlight-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 24px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-card span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .stat-card strong {
+      font-size: 1.15rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--card-border);
+      padding: 24px;
+      margin-top: auto;
+    }
+
+    @media (max-width: 850px) {
+      .hero-title { font-size: 2.4rem; }
+      .highlight-strip { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
+<body>
 
-<body class="bg-[#090d16] text-slate-200 min-h-screen antialiased selection:bg-indigo-500 selection:text-white">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <i data-lucide="terminal"></i>
+        <span>Mussyyab.dev</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active"><i data-lucide="home"></i> Home</a></li>
+        <li><a href="projects.html"><i data-lucide="layers"></i> Projects</a></li>
+        <li><a href="contact.html" class="nav-cta"><i data-lucide="mail"></i> Connect</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <!-- Navbar -->
-    <header class="fixed top-4 inset-x-0 max-w-5xl mx-auto px-4 z-50">
-        <nav class="glass-card rounded-2xl px-6 py-3 flex items-center justify-between border border-slate-800 shadow-2xl">
-            <a href="#home" class="flex items-center gap-3 group">
-                <img src="/profile.jpg" alt="Mussyyab Tariq" class="h-8 w-8 rounded-xl object-cover object-top border border-indigo-500/40 group-hover:scale-105 transition shadow-sm" />
-                <span class="font-bold text-base tracking-tight text-white">Mussyyab <span class="text-indigo-400">Tariq</span></span>
-            </a>
-            <div class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-300">
-                <a href="#guide" class="hover:text-indigo-400 transition">Client Guide</a>
-                <a href="#projects" class="hover:text-indigo-400 transition">Projects</a>
-                <a href="#timeline" class="hover:text-indigo-400 transition">Timeline</a>
-                <a href="#contact" class="hover:text-indigo-400 transition">Schedule Meeting</a>
-            </div>
-            <div class="flex items-center gap-3">
-                <button onclick="toggleAiDrawer()" class="flex items-center gap-1.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 border border-indigo-500/30 text-xs font-bold px-3.5 py-1.5 rounded-xl transition">
-                    <span class="animate-pulse">●</span> AI Agent
-                </button>
-                <a href="#contact" class="hidden sm:inline-block bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-lg shadow-indigo-600/20 transition">
-                    Hire Me
-                </a>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Hero Section with Full Executive Portrait -->
-    <section id="home" class="pt-32 pb-20 px-4 relative overflow-hidden">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                
-                <!-- Left: Impact Headline & Client Actions -->
-                <div class="lg:col-span-7 text-left space-y-6">
-                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass-card border border-indigo-500/30 text-indigo-300 text-xs font-semibold shadow-inner">
-                        <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span>Available for Full-Stack Engineering & AI Systems</span>
-                    </div>
-
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
-                        Transforming Business Ideas into <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400">Production-Ready Software</span>.
-                    </h1>
-
-                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-xl">
-                        Hi, I'm <strong class="text-white font-bold">Mussyyab Tariq</strong>. I architect reliable web applications, institutional ERPs, and specialized AI workflows that deliver real business impact without technical bloat.
-                    </p>
-
-                    <!-- Trust Stats Bar -->
-                    <div class="grid grid-cols-3 gap-3 py-2 max-w-lg border-y border-slate-800/80 my-2">
-                        <div>
-                            <div class="text-xl font-extrabold text-white">1+ Years</div>
-                            <div class="text-[11px] text-slate-400 font-medium">Core Hands-on Exp</div>
-                        </div>
-                        <div>
-                            <div class="text-xl font-extrabold text-indigo-400">100% Live</div>
-                            <div class="text-[11px] text-slate-400 font-medium">Working Prototypes</div>
-                        </div>
-                        <div>
-                            <div class="text-xl font-extrabold text-emerald-400">BSCS</div>
-                            <div class="text-[11px] text-slate-400 font-medium">Computer Science</div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap gap-4 pt-2">
-                        <a href="#guide" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-2xl shadow-xl shadow-indigo-600/25 transition flex items-center gap-2">
-                            <span>Explore Solutions</span>
-                            <span>↓</span>
-                        </a>
-                        <button onclick="toggleAiDrawer()" class="glass-card hover:bg-slate-800 text-slate-200 font-bold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition border border-slate-700 flex items-center gap-2">
-                            <span>Discuss with AI Assistant</span>
-                            <span>⚡</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Right: Large, Crisp Professional Portrait Showcase -->
-                <div class="lg:col-span-5 flex justify-center lg:justify-end">
-                    <div class="relative w-full max-w-sm sm:max-w-md">
-                        
-                        <!-- Glowing Backlight behind the picture -->
-                        <div class="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 rounded-3xl blur-xl opacity-30"></div>
-
-                        <!-- Main Image Container -->
-                        <div class="relative rounded-3xl overflow-hidden glass-card border border-slate-700/80 shadow-2xl bg-slate-900/60">
-                            <img 
-                                src="/profile.jpg" 
-                                alt="Mussyyab Tariq — Full-Stack Software Engineer" 
-                                class="w-full h-[430px] sm:h-[490px] object-cover object-top transition duration-300 hover:scale-[1.02]"
-                            />
-
-                            <!-- Floating Executive Credential Overlay -->
-                            <div class="absolute bottom-4 inset-x-4 glass-card p-3.5 rounded-2xl border border-white/10 shadow-lg backdrop-blur-md">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-sm font-bold text-white leading-tight">Mussyyab Tariq</h3>
-                                        <p class="text-[11px] text-indigo-300 font-medium">Software Engineer & Builder</p>
-                                    </div>
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
-                                        Verified ⚡
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Guided Intent Filter (Non-Tech Clients) -->
-    <section id="guide" class="py-16 px-4 bg-slate-950/40 border-y border-slate-900">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center max-w-xl mx-auto mb-10">
-                <h2 class="text-xs uppercase tracking-widest text-indigo-400 font-bold mb-2">Non-Technical Client Flow</h2>
-                <p class="text-2xl sm:text-3xl font-bold text-white tracking-tight">What are you looking to build today?</p>
-                <p class="text-xs text-slate-400 mt-2">Apni zaroorat select karein, website aapko seedha relevant solution dikhayegi.</p>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <button onclick="filterProjects('all')" class="guide-btn active glass-card p-4 rounded-2xl text-left border border-indigo-500/50 hover:border-indigo-500 transition group" data-category="all">
-                    <div class="text-xl mb-1">💼</div>
-                    <div class="font-bold text-sm text-white group-hover:text-indigo-400 transition">All Work</div>
-                    <div class="text-[11px] text-slate-400 mt-0.5">Explore full portfolio</div>
-                </button>
-
-                <button onclick="filterProjects('ai')" class="guide-btn glass-card p-4 rounded-2xl text-left border border-slate-800 hover:border-indigo-500 transition group" data-category="ai">
-                    <div class="text-xl mb-1">🤖</div>
-                    <div class="font-bold text-sm text-white group-hover:text-indigo-400 transition">AI & Automation</div>
-                    <div class="text-[11px] text-slate-400 mt-0.5">LLM, ATS, Smart Tools</div>
-                </button>
-
-                <button onclick="filterProjects('management')" class="guide-btn glass-card p-4 rounded-2xl text-left border border-slate-800 hover:border-indigo-500 transition group" data-category="management">
-                    <div class="text-xl mb-1">📊</div>
-                    <div class="font-bold text-sm text-white group-hover:text-indigo-400 transition">Database & Management</div>
-                    <div class="text-[11px] text-slate-400 mt-0.5">Portals, ERP, Databases</div>
-                </button>
-
-                <button onclick="filterProjects('ecommerce')" class="guide-btn glass-card p-4 rounded-2xl text-left border border-slate-800 hover:border-indigo-500 transition group" data-category="ecommerce">
-                    <div class="text-xl mb-1">🛍️</div>
-                    <div class="font-bold text-sm text-white group-hover:text-indigo-400 transition">E-Commerce & Stores</div>
-                    <div class="text-[11px] text-slate-400 mt-0.5">Custom online storefronts</div>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section (Dynamic via MongoDB) -->
-    <section id="projects" class="py-20 px-4">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-                <div>
-                    <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold">Featured Projects</span>
-                    <h2 class="text-3xl font-extrabold text-white mt-1">Engineered for Scalability & Reliability</h2>
-                </div>
-            </div>
-
-            <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Auto Loaded from MongoDB via app.js -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Timeline Section (Dynamic via MongoDB) -->
-    <section id="timeline" class="py-20 px-4 bg-slate-950/50 border-t border-slate-900">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-14">
-                <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold">Mussyyab's Journey</span>
-                <h2 class="text-3xl font-extrabold text-white mt-1">Education, Experience & Milestones</h2>
-            </div>
-
-            <!-- Dynamic Timeline Items Container -->
-            <div id="timelineContainer" class="max-w-2xl mx-auto space-y-4">
-                <!-- Auto Loaded from MongoDB via app.js -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 px-4">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center max-w-xl mx-auto mb-12">
-                <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold">Get In Touch</span>
-                <h2 class="text-3xl font-extrabold text-white mt-1">Ready to Start Your Next Project?</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-800">
-                    <h3 class="text-lg font-bold text-white mb-4">Send a Direct Message</h3>
-                    <form id="contactForm" class="space-y-4">
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Your Name</label>
-                            <input type="text" id="senderName" required placeholder="e.g. John Doe" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500" />
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Email Address</label>
-                            <input type="email" id="senderEmail" required placeholder="name@company.com" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500" />
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Project Scope / Details</label>
-                            <textarea id="projectScope" rows="4" required placeholder="Briefly describe what you want to build..." class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/20">
-                            Send Project Inquiry ✉️
-                        </button>
-                    </form>
-                </div>
-
-                <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-800 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-lg font-bold text-white mb-2">Schedule a Strategy Call</h3>
-                        <p class="text-xs text-slate-400 mb-6">Direct discovery meeting to discuss roadmap, tech stack, and cost.</p>
-                        <div class="border border-dashed border-slate-800 rounded-2xl p-6 text-center bg-[#090d16]/50 mb-6">
-                            <div class="text-3xl mb-2">📅</div>
-                            <div class="text-xs font-bold text-slate-200">Instant Calendar Sync</div>
-                            <div class="text-[11px] text-slate-400 mt-1">Available for quick project consultations.</div>
-                        </div>
-                    </div>
-                    <button onclick="toggleAiDrawer()" class="w-full glass-card hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs py-3.5 rounded-xl transition">
-                        Pitch Idea to AI Assistant ⚡
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Pitch Assistant Drawer -->
-    <div id="aiDrawer" class="fixed inset-y-0 right-0 w-full sm:w-96 glass-card border-l border-slate-800 transform translate-x-full transition-transform duration-300 z-50 flex flex-col">
-        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
-            <div class="flex items-center gap-2">
-                <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span class="font-bold text-sm text-white">Mussyyab's AI Agent</span>
-            </div>
-            <button onclick="toggleAiDrawer()" class="text-slate-400 hover:text-white text-lg px-2">✕</button>
-        </div>
-        <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-3 text-xs">
-            <div class="bg-indigo-600/10 border border-indigo-500/20 p-3 rounded-2xl text-indigo-200">
-                Salam! Main Mussyyab ka AI Assistant hoon. Aap apna idea share karein, main aapko relevant solution aur projects recommend karta hoon.
-            </div>
-        </div>
-        <div class="p-3 border-t border-slate-800 bg-slate-900/50 flex gap-2">
-            <input type="text" id="aiUserInput" placeholder="Type your idea..." class="flex-1 bg-[#090d16] border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500" onkeydown="if(event.key==='Enter') sendAiMessage()" />
-            <button onclick="sendAiMessage()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-xl text-xs font-bold">Send</button>
-        </div>
+  <!-- Hero Section -->
+  <main class="hero-wrapper">
+    <div class="badge-status">
+      <span class="dot"></span> BSCS (2024–2028) • GCUF Active Student
     </div>
 
-    <script src="/app.js"></script>
-</body>
+    <h1 class="hero-title">
+      Building modern web apps & <br>
+      <span class="gradient-text">interactive digital experiences.</span>
+    </h1>
 
+    <p class="hero-description">
+      Hi, I'm <strong>Mussyyab Tariq</strong>. A Computer Science undergraduate focused on crafting high-performance, full-stack software systems and practical web applications with modern architectures.
+    </p>
+
+    <div class="action-group">
+      <a href="projects.html" class="btn-primary">
+        <i data-lucide="layers"></i> Explore Live Projects
+      </a>
+      <a href="contact.html" class="btn-secondary">
+        <i data-lucide="mail"></i> Get In Touch
+      </a>
+    </div>
+
+    <div class="highlight-strip">
+      <div class="stat-card">
+        <span>Academic Standing</span>
+        <strong>BS Computer Science (GCUF)</strong>
+      </div>
+      <div class="stat-card">
+        <span>Core Production Tools</span>
+        <strong>Resume Studio & Attendance ERP</strong>
+      </div>
+      <div class="stat-card">
+        <span>Technical Focus</span>
+        <strong>Full-Stack JavaScript & Systems</strong>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Mussyyab Tariq. Built with Node.js & Express</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
 </html>
