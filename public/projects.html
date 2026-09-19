@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Mussyyab Tariq</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    .projects-grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .project-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 320px;
+      padding: 30px;
+    }
+    .badge-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .project-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .project-about {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .pill-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-card);
+      font-size: 0.8rem;
+      padding: 5px 12px;
+      border-radius: 6px;
+      color: var(--accent-cyan);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .action-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .action-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 850px) {
+      .projects-grid-two {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <i data-lucide="terminal"></i>
+        <span>Mussyyab.dev</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html"><i data-lucide="home"></i> Home</a></li>
+        <li><a href="about.html"><i data-lucide="user"></i> About & Journey</a></li>
+        <li><a href="projects.html" class="active"><i data-lucide="layers"></i> Projects</a></li>
+        <li><a href="contact.html" class="nav-cta"><i data-lucide="mail"></i> Connect</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="wrapper" style="padding-top: 140px;">
+    <div style="max-width: 700px; margin-bottom: 20px;">
+      <div class="badge">
+        <span class="badge-dot"></span> Practical Applications
+      </div>
+      <h1 style="font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px;">
+        Featured <span class="gradient-text">Projects.</span>
+      </h1>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">
+        Click below to launch and test both functional applications live.
+      </p>
+    </div>
+
+    <div class="projects-grid-two">
+      
+      <!-- Project 1: Resume Studio Pro -->
+      <div class="glass-card project-box">
+        <div>
+          <div class="badge-bar">
+            <div class="icon-box" style="margin-bottom: 0;"><i data-lucide="file-text"></i></div>
+            <span style="color: #10b981; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; gap: 6px;">
+              <span class="badge-dot"></span> Live Tool
+            </span>
+          </div>
+          <h2 class="project-name">Resume Studio Pro</h2>
+          <p class="project-about">
+            A dynamic web application allowing users to craft, customize color accents, switch professional templates, and export vector PDF resumes in real time.
+          </p>
+          <div class="pill-list">
+            <span class="pill-item">JavaScript</span>
+            <span class="pill-item">HTML5 / CSS3</span>
+            <span class="pill-item">Template Switcher</span>
+            <span class="pill-item">PDF Export</span>
+          </div>
+        </div>
+        <div>
+          <a href="resume-app.html" target="_blank" class="action-btn">
+            <i data-lucide="external-link"></i> Live Preview
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 2: EduPulse Attendance ERP -->
+      <div class="glass-card project-box">
+        <div>
+          <div class="badge-bar">
+            <div class="icon-box" style="margin-bottom: 0;"><i data-lucide="school"></i></div>
+            <span style="color: var(--accent-cyan); font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; gap: 6px;">
+              <span class="badge-dot"></span> Live System
+            </span>
+          </div>
+          <h2 class="project-name">EduPulse Attendance & Classroom ERP</h2>
+          <p class="project-about">
+            A full-fledged dynamic teacher workspace featuring monthly attendance ledgers (P/A/L), real-time KPI compliance metrics, and automated Principal report submission.
+          </p>
+          <div class="pill-list">
+            <span class="pill-item">Tailwind CSS</span>
+            <span class="pill-item">Local Storage</span>
+            <span class="pill-item">Dynamic Ledger</span>
+            <span class="pill-item">Automated Reporting</span>
+          </div>
+        </div>
+        <div>
+          <a href="attendance-app.html" target="_blank" class="action-btn">
+            <i data-lucide="external-link"></i> Live Preview
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Mussyyab Tariq. Built with Node.js & Three.js</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

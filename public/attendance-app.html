@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduPulse Portal — Dynamic Teacher & Classroom ERP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #090d16; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  </style>
+</head>
+<body class="bg-[#080c14] text-slate-200 min-h-screen p-4 sm:p-6 lg:p-8 selection:bg-indigo-600 selection:text-white">
+
+  <div class="max-w-7xl mx-auto space-y-6">
+
+    <!-- Top Identity Bar -->
+    <header class="bg-[#0f172a]/80 backdrop-blur border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800/80 pb-5">
+        <div class="flex items-center gap-4">
+          <a href="projects.html" class="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition border border-slate-800 flex items-center gap-1.5">
+            ← Back to Projects
+          </a>
+          <div class="h-12 w-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-indigo-600/30">
+            🏫
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-xl font-bold text-white tracking-tight">EduPulse Classroom Workspace</h1>
+              <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/20">Live Sync</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">
+              Active Instructor: <span class="text-indigo-400 font-bold" id="displayTeacherName">Mussyyab Tariq</span> | 
+              Subject: <span class="text-white font-semibold" id="displaySubject">Web Development & DBMS</span> | 
+              Class: <span class="text-emerald-400 font-semibold" id="displayClass">BSCS-3A</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Month Navigation -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <div class="bg-[#080c14] border border-slate-800 rounded-2xl p-1.5 flex items-center gap-1.5 shadow-inner">
+            <button onclick="navigateMonth(-1)" title="Previous Month" class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition">
+              ← Prev
+            </button>
+            <input type="month" id="selectedMonth" onchange="renderLedger()" class="bg-transparent text-xs text-white font-bold focus:outline-none cursor-pointer px-2 text-center" />
+            <button onclick="navigateMonth(1)" title="Next Month" class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition">
+              Next →
+            </button>
+          </div>
+
+          <button onclick="openMonthlySubmissionModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2.5 rounded-2xl shadow-lg shadow-indigo-600/30 transition flex items-center gap-1.5">
+            <span>📤 Submit to Principal</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#080c14]/70 p-3.5 rounded-2xl border border-slate-800/80">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Teacher / Instructor Name</label>
+          <input type="text" id="inputTeacherName" oninput="updateTeacherProfile()" value="Mussyyab Tariq" placeholder="Enter Teacher Name..." class="w-full bg-[#0f172a] border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-indigo-500 font-semibold" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Subject / Course</label>
+          <input type="text" id="inputSubject" oninput="updateTeacherProfile()" value="Web Development & DBMS" placeholder="e.g. Mathematics, AI, Physics..." class="w-full bg-[#0f172a] border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-indigo-500 font-semibold" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Class / Section</label>
+          <input type="text" id="inputClass" oninput="updateTeacherProfile()" value="BSCS-3A" placeholder="e.g. Grade 10-B, BSCS-5..." class="w-full bg-[#0f172a] border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-indigo-500 font-semibold" />
+        </div>
+      </div>
+    </header>
+
+    <!-- Real-time Dashboard KPI Metrics -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="bg-[#0f172a]/60 border border-slate-800/80 p-5 rounded-3xl">
+        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Total Enrolled</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span id="kpiTotalStudents" class="text-3xl font-black text-white">0</span>
+          <span class="text-xs text-slate-500">In this class</span>
+        </div>
+      </div>
+
+      <div class="bg-[#0f172a]/60 border border-slate-800/80 p-5 rounded-3xl">
+        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Class Attendance Avg</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span id="kpiMonthlyAvg" class="text-3xl font-black text-emerald-400">0%</span>
+          <span class="text-xs text-emerald-500/80">Compliance rate</span>
+        </div>
+      </div>
+
+      <div class="bg-[#0f172a]/60 border border-slate-800/80 p-5 rounded-3xl">
+        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Approved Leaves (L)</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span id="kpiTotalLeaves" class="text-3xl font-black text-amber-400">0</span>
+          <span class="text-xs text-amber-500/80">Logged</span>
+        </div>
+      </div>
+
+      <div class="bg-[#0f172a]/60 border border-slate-800/80 p-5 rounded-3xl">
+        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Total Working Days</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span id="kpiWorkingDays" class="text-3xl font-black text-indigo-400">0</span>
+          <span class="text-xs text-slate-500">Days logged</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Action Bar -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0f172a]/40 border border-slate-800/80 p-4 rounded-3xl">
+      <div class="flex items-center gap-2">
+        <label class="text-xs text-slate-400 font-semibold">Mark Date:</label>
+        <input type="date" id="activeMarkDate" class="bg-[#080c14] border border-slate-800 text-xs px-3 py-1.5 rounded-xl text-white focus:outline-none focus:border-indigo-500" />
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="markAllForDate('present')" class="bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 border border-emerald-500/20 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+          <span>✓</span> All Present (P)
+        </button>
+        <button onclick="markAllForDate('absent')" class="bg-rose-600/10 hover:bg-rose-600/20 text-rose-400 border border-rose-500/20 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+          <span>✗</span> All Absent (A)
+        </button>
+        <button onclick="markAllForDate('leave')" class="bg-amber-600/10 hover:bg-amber-600/20 text-amber-400 border border-amber-500/20 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+          <span>⏱️</span> All Leave (L)
+        </button>
+        <button onclick="openAddStudentModal()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+          <span>➕</span> New Admission
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Register Grid -->
+    <div class="bg-[#0f172a]/60 border border-slate-800/80 rounded-3xl p-5 sm:p-6 shadow-2xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base font-bold text-white">Monthly Attendance Ledger (P / A / L)</h2>
+          <p class="text-xs text-slate-400">Click any date box to toggle: <span class="text-emerald-400 font-bold">Present (P)</span> ➔ <span class="text-rose-400 font-bold">Absent (A)</span> ➔ <span class="text-amber-400 font-bold">Leave (L)</span> ➔ Clear.</p>
+        </div>
+        <input type="text" id="filterStudentInput" onkeyup="renderLedger()" placeholder="Search roll or student name..." class="bg-[#080c14] border border-slate-800 text-xs px-3.5 py-2 rounded-xl text-slate-200 focus:outline-none focus:border-indigo-500 w-full sm:w-60" />
+      </div>
+
+      <div class="overflow-x-auto border border-slate-800 rounded-2xl bg-[#080c14]">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead id="ledgerHeader" class="bg-slate-900/90 text-slate-400 uppercase tracking-wider text-[11px] border-b border-slate-800"></thead>
+          <tbody id="ledgerBody" class="divide-y divide-slate-800/60"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal 1: Add New Student -->
+  <div id="addStudentModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#0f172a] border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-sm font-bold text-white">Admit Student to Class</h3>
+        <button onclick="closeAddStudentModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <form id="addStudentForm" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-400 mb-1 font-semibold">Roll Number</label>
+          <input type="text" id="newRoll" required placeholder="e.g. CS-104" class="w-full bg-[#080c14] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1 font-semibold">Student Name</label>
+          <input type="text" id="newName" required placeholder="e.g. Muhammad Zunair" class="w-full bg-[#080c14] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition mt-2">
+          Save Admission Record
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Principal Report -->
+  <div id="reportSubmissionModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#0f172a] border border-slate-800 rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+      <div class="border-b border-slate-800 pb-4">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="text-xs uppercase font-extrabold text-indigo-400 tracking-wider">Official Academic Record</span>
+            <h2 class="text-2xl font-black text-white mt-0.5">Principal Office Monthly Attendance Dossier</h2>
+          </div>
+          <button onclick="closeReportModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 bg-[#080c14] p-3.5 rounded-2xl border border-slate-800 text-xs">
+          <div>
+            <span class="text-slate-500 block text-[10px] uppercase font-bold">Instructor</span>
+            <span id="repTeacherName" class="font-bold text-white"></span>
+          </div>
+          <div>
+            <span class="text-slate-500 block text-[10px] uppercase font-bold">Course / Subject</span>
+            <span id="repSubject" class="font-bold text-indigo-400"></span>
+          </div>
+          <div>
+            <span class="text-slate-500 block text-[10px] uppercase font-bold">Assigned Class</span>
+            <span id="repClass" class="font-bold text-emerald-400"></span>
+          </div>
+          <div>
+            <span class="text-slate-500 block text-[10px] uppercase font-bold">Reporting Month</span>
+            <span id="repMonth" class="font-bold text-amber-400 font-mono"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-2 bg-[#080c14] border border-slate-800 p-4 rounded-2xl text-center">
+        <div>
+          <span class="text-[10px] text-slate-400 block">Class Strength</span>
+          <span id="reportStrength" class="text-xl font-extrabold text-white">0</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-slate-400 block">Avg Attendance</span>
+          <span id="reportAverage" class="text-xl font-extrabold text-emerald-400">0%</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-slate-400 block">Total Leaves</span>
+          <span id="reportLeavesTotal" class="text-xl font-extrabold text-amber-400">0</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-slate-400 block">Defaulters</span>
+          <span id="reportDefaultersCount" class="text-xl font-extrabold text-rose-400">0</span>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Student Evaluation Breakdown</h4>
+        <div class="border border-slate-800 rounded-2xl overflow-hidden bg-[#080c14]">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-900 text-slate-400 text-[11px] border-b border-slate-800">
+              <tr>
+                <th class="p-3">Roll & Student Name</th>
+                <th class="p-3">Presents</th>
+                <th class="p-3">Absents</th>
+                <th class="p-3">Leaves</th>
+                <th class="p-3">Percentage</th>
+                <th class="p-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="reportBody" class="divide-y divide-slate-800/60"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+        <button onclick="window.print()" class="text-xs font-bold text-slate-300 hover:text-white flex items-center gap-1.5">
+          <span>🖨️</span> Print / Save PDF Dossier
+        </button>
+        <button onclick="finalizeReportSubmission()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-6 py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/20">
+          Sign & Transmit to Principal Archive ✓
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const monthPicker = document.getElementById("selectedMonth");
+    const activeMarkDate = document.getElementById("activeMarkDate");
+
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonthNum = String(today.getMonth() + 1).padStart(2, '0');
+    const currentDayNum = String(today.getDate()).padStart(2, '0');
+
+    monthPicker.value = `${currentYear}-${currentMonthNum}`;
+    activeMarkDate.value = `${currentYear}-${currentMonthNum}-${currentDayNum}`;
+
+    let teacherProfile = JSON.parse(localStorage.getItem("mussyyab_teacher_profile")) || {
+      name: "Mussyyab Tariq",
+      subject: "Web Development & DBMS",
+      className: "BSCS-3A"
+    };
+
+    function loadTeacherProfile() {
+      document.getElementById("inputTeacherName").value = teacherProfile.name;
+      document.getElementById("inputSubject").value = teacherProfile.subject;
+      document.getElementById("inputClass").value = teacherProfile.className;
+
+      document.getElementById("displayTeacherName").innerText = teacherProfile.name;
+      document.getElementById("displaySubject").innerText = teacherProfile.subject;
+      document.getElementById("displayClass").innerText = teacherProfile.className;
+    }
+
+    function updateTeacherProfile() {
+      teacherProfile.name = document.getElementById("inputTeacherName").value.trim() || "Teacher";
+      teacherProfile.subject = document.getElementById("inputSubject").value.trim() || "General Subject";
+      teacherProfile.className = document.getElementById("inputClass").value.trim() || "General Class";
+
+      document.getElementById("displayTeacherName").innerText = teacherProfile.name;
+      document.getElementById("displaySubject").innerText = teacherProfile.subject;
+      document.getElementById("displayClass").innerText = teacherProfile.className;
+
+      localStorage.setItem("mussyyab_teacher_profile", JSON.stringify(teacherProfile));
+    }
+
+    function navigateMonth(step) {
+      const [year, month] = monthPicker.value.split('-').map(Number);
+      const newDate = new Date(year, month - 1 + step, 1);
+      const newY = newDate.getFullYear();
+      const newM = String(newDate.getMonth() + 1).padStart(2, '0');
+      monthPicker.value = `${newY}-${newM}`;
+      renderLedger();
+    }
+
+    let defaultStudents = [
+      {
+        id: "1",
+        roll: "CS-101",
+        name: "Ali Raza",
+        attendance: {
+          [`${currentYear}-${currentMonthNum}-01`]: "present",
+          [`${currentYear}-${currentMonthNum}-02`]: "present",
+          [`${currentYear}-${currentMonthNum}-03`]: "leave",
+          [`${currentYear}-${currentMonthNum}-04`]: "present",
+          [`${currentYear}-${currentMonthNum}-05`]: "absent",
+          [`${currentYear}-${currentMonthNum}-${currentDayNum}`]: "present"
+        }
+      },
+      {
+        id: "2",
+        roll: "CS-102",
+        name: "Hamza Tariq",
+        attendance: {
+          [`${currentYear}-${currentMonthNum}-01`]: "present",
+          [`${currentYear}-${currentMonthNum}-02`]: "absent",
+          [`${currentYear}-${currentMonthNum}-03`]: "present",
+          [`${currentYear}-${currentMonthNum}-04`]: "leave",
+          [`${currentYear}-${currentMonthNum}-05`]: "present",
+          [`${currentYear}-${currentMonthNum}-${currentDayNum}`]: "present"
+        }
+      },
+      {
+        id: "3",
+        roll: "CS-103",
+        name: "Usman Butt",
+        attendance: {
+          [`${currentYear}-${currentMonthNum}-01`]: "absent",
+          [`${currentYear}-${currentMonthNum}-02`]: "leave",
+          [`${currentYear}-${currentMonthNum}-03`]: "present",
+          [`${currentYear}-${currentMonthNum}-04`]: "absent",
+          [`${currentYear}-${currentMonthNum}-05`]: "absent",
+          [`${currentYear}-${currentMonthNum}-${currentDayNum}`]: "leave"
+        }
+      }
+    ];
+
+    let students = JSON.parse(localStorage.getItem("mussyyab_school_pro_v3")) || defaultStudents;
+
+    function saveState() {
+      localStorage.setItem("mussyyab_school_pro_v3", JSON.stringify(students));
+    }
+
+    function toggleLedgerCell(studentId, dateKey) {
+      const student = students.find(s => s.id === studentId);
+      if (!student) return;
+
+      const current = student.attendance[dateKey];
+      if (!current) {
+        student.attendance[dateKey] = "present";
+      } else if (current === "present") {
+        student.attendance[dateKey] = "absent";
+      } else if (current === "absent") {
+        student.attendance[dateKey] = "leave";
+      } else {
+        delete student.attendance[dateKey];
+      }
+
+      saveState();
+      renderLedger();
+    }
+
+    function markAllForDate(status) {
+      const targetDate = activeMarkDate.value;
+      if (!targetDate) return alert("Please select an active date!");
+
+      students.forEach(s => {
+        s.attendance[targetDate] = status;
+      });
+
+      saveState();
+      renderLedger();
+    }
+
+    function removeStudent(studentId, name) {
+      if (confirm(`Are you sure you want to remove ${name}?`)) {
+        students = students.filter(s => s.id !== studentId);
+        saveState();
+        renderLedger();
+      }
+    }
+
+    function renderLedger() {
+      const [year, month] = monthPicker.value.split('-').map(Number);
+      const daysInMonth = new Date(year, month, 0).getDate();
+      const search = document.getElementById("filterStudentInput").value.toLowerCase();
+
+      const thead = document.getElementById("ledgerHeader");
+      let headerHTML = `
+        <tr>
+          <th class="p-3 sticky left-0 bg-slate-900 z-10 min-w-[180px]">Student Info</th>
+          <th class="p-3 text-center min-w-[70px]">Rate %</th>
+      `;
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dStr = String(day).padStart(2, '0');
+        const isToday = (day === today.getDate() && month === (today.getMonth() + 1) && year === today.getFullYear());
+        headerHTML += `
+          <th class="p-2 text-center font-mono ${isToday ? 'bg-indigo-600/30 text-indigo-300 font-black' : 'text-slate-400'} min-w-[34px]">
+            ${dStr}
+          </th>
+        `;
+      }
+      headerHTML += `<th class="p-3 text-center min-w-[70px]">Action</th></tr>`;
+      thead.innerHTML = headerHTML;
+
+      const tbody = document.getElementById("ledgerBody");
+      tbody.innerHTML = "";
+
+      let overallPercentages = [];
+      let totalLeavesRecorded = 0;
+      let recordedDaysSet = new Set();
+
+      const filtered = students.filter(s => 
+        s.name.toLowerCase().includes(search) || s.roll.toLowerCase().includes(search)
+      );
+
+      filtered.forEach(s => {
+        let pCount = 0;
+        let aCount = 0;
+        let lCount = 0;
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dStr = String(day).padStart(2, '0');
+          const dateKey = `${year}-${String(month).padStart(2, '0')}-${dStr}`;
+          const stat = s.attendance[dateKey];
+          if (stat === "present") { pCount++; recordedDaysSet.add(dateKey); }
+          if (stat === "absent") { aCount++; recordedDaysSet.add(dateKey); }
+          if (stat === "leave") { lCount++; totalLeavesRecorded++; recordedDaysSet.add(dateKey); }
+        }
+
+        const accountableDays = pCount + aCount;
+        const rate = accountableDays > 0 ? Math.round((pCount / accountableDays) * 100) : (lCount > 0 ? 100 : 0);
+        overallPercentages.push(rate);
+
+        let rowHTML = `
+          <tr class="hover:bg-slate-900/40 transition">
+            <td class="p-3 sticky left-0 bg-[#080c14] z-10 border-r border-slate-800/80">
+              <div class="font-bold text-white">${s.name}</div>
+              <div class="text-[10px] text-slate-400 font-mono">${s.roll}</div>
+            </td>
+            <td class="p-3 text-center font-bold font-mono border-r border-slate-800/80 ${rate >= 75 ? 'text-emerald-400' : 'text-rose-400'}">
+              ${rate}%
+            </td>
+        `;
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dStr = String(day).padStart(2, '0');
+          const dateKey = `${year}-${String(month).padStart(2, '0')}-${dStr}`;
+          const stat = s.attendance[dateKey];
+
+          let cellClass = "text-slate-700 hover:text-slate-400";
+          let cellChar = "—";
+
+          if (stat === "present") {
+            cellClass = "bg-emerald-500/10 text-emerald-400 font-black border border-emerald-500/20";
+            cellChar = "P";
+          } else if (stat === "absent") {
+            cellClass = "bg-rose-500/10 text-rose-400 font-black border border-rose-500/20";
+            cellChar = "A";
+          } else if (stat === "leave") {
+            cellClass = "bg-amber-500/15 text-amber-400 font-black border border-amber-500/30";
+            cellChar = "L";
+          }
+
+          rowHTML += `
+            <td class="p-1 text-center cursor-pointer select-none" onclick="toggleLedgerCell('${s.id}', '${dateKey}')">
+              <div class="h-7 w-7 rounded-lg mx-auto flex items-center justify-center text-[11px] transition ${cellClass}">
+                ${cellChar}
+              </div>
+            </td>
+          `;
+        }
+
+        rowHTML += `
+          <td class="p-3 text-center">
+            <button onclick="removeStudent('${s.id}', '${s.name}')" class="text-rose-400/80 hover:text-rose-300 text-[11px] font-semibold">
+              Remove
+            </button>
+          </td>
+        </tr>`;
+
+        tbody.innerHTML += rowHTML;
+      });
+
+      document.getElementById("kpiTotalStudents").innerText = students.length;
+      document.getElementById("kpiWorkingDays").innerText = recordedDaysSet.size;
+      document.getElementById("kpiTotalLeaves").innerText = totalLeavesRecorded;
+
+      const avg = overallPercentages.length > 0 
+        ? Math.round(overallPercentages.reduce((a, b) => a + b, 0) / overallPercentages.length)
+        : 0;
+      document.getElementById("kpiMonthlyAvg").innerText = avg + "%";
+    }
+
+    function openAddStudentModal() { document.getElementById("addStudentModal").classList.remove("hidden"); }
+    function closeAddStudentModal() { document.getElementById("addStudentModal").classList.add("hidden"); }
+
+    document.getElementById("addStudentForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const roll = document.getElementById("newRoll").value.trim();
+      const name = document.getElementById("newName").value.trim();
+
+      students.push({
+        id: Date.now().toString(),
+        roll: roll,
+        name: name,
+        attendance: {}
+      });
+
+      saveState();
+      e.target.reset();
+      closeAddStudentModal();
+      renderLedger();
+    });
+
+    function openMonthlySubmissionModal() {
+      const [year, month] = monthPicker.value.split('-').map(Number);
+      const daysInMonth = new Date(year, month, 0).getDate();
+
+      document.getElementById("repTeacherName").innerText = teacherProfile.name;
+      document.getElementById("repSubject").innerText = teacherProfile.subject;
+      document.getElementById("repClass").innerText = teacherProfile.className;
+      document.getElementById("repMonth").innerText = monthPicker.value;
+
+      document.getElementById("reportStrength").innerText = students.length;
+
+      let reportRows = "";
+      let totalPercentages = [];
+      let defaulters = 0;
+      let totalLeaves = 0;
+
+      students.forEach(s => {
+        let p = 0;
+        let a = 0;
+        let l = 0;
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dStr = String(day).padStart(2, '0');
+          const dateKey = `${year}-${String(month).padStart(2, '0')}-${dStr}`;
+          if (s.attendance[dateKey] === "present") p++;
+          if (s.attendance[dateKey] === "absent") a++;
+          if (s.attendance[dateKey] === "leave") { l++; totalLeaves++; }
+        }
+
+        const accountable = p + a;
+        const rate = accountable > 0 ? Math.round((p / accountable) * 100) : (l > 0 ? 100 : 0);
+        totalPercentages.push(rate);
+        if (rate < 75 && accountable > 0) defaulters++;
+
+        reportRows += `
+          <tr>
+            <td class="p-3">
+              <span class="font-bold text-white">${s.name}</span>
+              <span class="text-slate-400 font-mono ml-1">(${s.roll})</span>
+            </td>
+            <td class="p-3 text-emerald-400 font-semibold">${p} Days</td>
+            <td class="p-3 text-rose-400 font-semibold">${a} Days</td>
+            <td class="p-3 text-amber-400 font-semibold">${l} Leaves</td>
+            <td class="p-3 font-bold font-mono ${rate >= 75 ? 'text-emerald-400' : 'text-rose-400'}">${rate}%</td>
+            <td class="p-3">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${rate >= 75 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}">
+                ${rate >= 75 ? 'SATISFACTORY' : 'ATTENDANCE DEFICIT'}
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+
+      document.getElementById("reportBody").innerHTML = reportRows;
+      const finalAvg = totalPercentages.length > 0 ? Math.round(totalPercentages.reduce((a, b) => a + b, 0) / totalPercentages.length) : 0;
+      document.getElementById("reportAverage").innerText = finalAvg + "%";
+      document.getElementById("reportDefaultersCount").innerText = defaulters;
+      document.getElementById("reportLeavesTotal").innerText = totalLeaves;
+
+      document.getElementById("reportSubmissionModal").classList.remove("hidden");
+    }
+
+    function closeReportModal() { document.getElementById("reportSubmissionModal").classList.add("hidden"); }
+
+    function finalizeReportSubmission() {
+      alert(`Report for [${teacherProfile.className} — ${teacherProfile.subject}] successfully signed by ${teacherProfile.name} and submitted to the Principal Archive!`);
+      closeReportModal();
+    }
+
+    loadTeacherProfile();
+    renderLedger();
+  </script>
+</body>
+</html>

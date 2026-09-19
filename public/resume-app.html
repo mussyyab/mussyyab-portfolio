@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Studio Pro — Built by Mussyyab Tariq</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="resume-style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="navbar no-print">
+    <div class="brand">
+      <a href="projects.html" style="text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: #475569; margin-right: 12px; padding: 4px 8px; border: 1px solid #e2e8f0; border-radius: 6px;">
+        ← Back to Projects
+      </a>
+      <div class="brand-logo">⚡</div>
+      <div class="brand-text">
+        <span class="logo-title">Resume<span>Studio</span></span>
+        <span class="logo-by">by Mussyyab Tariq</span>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="control-unit">
+        <label>Template</label>
+        <select id="templateSelect">
+          <option value="template-modern">Modern Tech</option>
+          <option value="template-minimal">Minimal Clean</option>
+          <option value="template-executive">Executive Classic</option>
+        </select>
+      </div>
+
+      <div class="control-unit">
+        <label>Color Accent</label>
+        <div class="color-palette">
+          <button class="color-dot active" data-color="#2563eb" style="background: #2563eb;"></button>
+          <button class="color-dot" data-color="#059669" style="background: #059669;"></button>
+          <button class="color-dot" data-color="#7c3aed" style="background: #7c3aed;"></button>
+          <button class="color-dot" data-color="#0f172a" style="background: #0f172a;"></button>
+        </div>
+      </div>
+
+      <button class="btn-download" onclick="openModal()">
+        <span>📥</span> Download Clean PDF
+      </button>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <!-- LEFT PANEL: Editor -->
+    <aside class="editor-pane no-print">
+      <div class="pane-header">
+        <h3>Resume Content</h3>
+        <p>Live synchronized with preview</p>
+      </div>
+
+      <div class="editor-card">
+        <h4>Personal Information</h4>
+        <div class="input-row">
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" id="inputName" value="MUSSYYAB TARIQ">
+          </div>
+          <div class="field">
+            <label>Target Role / Headline</label>
+            <input type="text" id="inputTitle" value="Computer Science Undergraduate">
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="inputEmail" value="mussyyabtariq@gmail.com">
+          </div>
+          <div class="field">
+            <label>Phone Number (Optional)</label>
+            <input type="text" id="inputPhone" value="0328-1682447">
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="field">
+            <label>Location (Optional)</label>
+            <input type="text" id="inputLocation" value="Samundri, Faisalabad">
+          </div>
+          <div class="field">
+            <label>LinkedIn Profile (Optional)</label>
+            <input type="text" id="inputLinkedIn" value="linkedin.com/in/musyyab-tariq" placeholder="Leave empty if none">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Portfolio / GitHub (Optional)</label>
+          <input type="text" id="inputWebsite" value="github.com/namal78" placeholder="Leave empty if none">
+        </div>
+      </div>
+
+      <div class="editor-card">
+        <h4>Professional Summary</h4>
+        <div class="field">
+          <textarea id="inputSummary" rows="4">Detail-oriented and results-driven Computer Science undergraduate equipped with strong fundamentals in computing systems, algorithmic thinking, and modern web technologies. Demonstrates proven capability in data accuracy, administrative workflow automation, and collaborative problem-solving. Committed to delivering operational excellence and driving organizational value in fast-paced technical environments.</textarea>
+        </div>
+      </div>
+
+      <div class="editor-card">
+        <h4>Skills & Competencies</h4>
+        <div class="field">
+          <label>Technical Skills (Comma separated)</label>
+          <input type="text" id="inputTechSkills" value="C++, HTML5/CSS3, JavaScript, MS Office Suite, Advanced Data Entry, Webflow, Git/GitHub, System Optimization">
+        </div>
+        <div class="field" style="margin-top: 10px;">
+          <label>Soft Skills (Comma separated)</label>
+          <input type="text" id="inputSoftSkills" value="Analytical Problem Solving, Technical Communication, Cross-Functional Teamwork, Workflow Planning, Adaptability, Attention to Detail">
+        </div>
+      </div>
+
+      <div class="editor-card">
+        <h4>Education Background</h4>
+        <div class="field">
+          <label>Degree & Major</label>
+          <input type="text" id="inputDegree" value="Bachelor of Computer Science (BSCS)">
+        </div>
+        <div class="field">
+          <label>Institution & Timeline</label>
+          <input type="text" id="inputInstitute" value="Government College University Faisalabad (GCUF) | 2024 - Present">
+        </div>
+      </div>
+
+      <div class="editor-card">
+        <h4>Featured Project</h4>
+        <div class="field">
+          <label>Project Title</label>
+          <input type="text" id="inputProjectTitle" value="Resume Studio Pro — Web Application">
+        </div>
+        <div class="field">
+          <label>Project Summary</label>
+          <textarea id="inputProjectDesc" rows="3">An ATS-friendly resume generation suite engineered with real-time sheet rendering, customizable design schemes, and zero-loss vector PDF generation.</textarea>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT PANEL: Live A4 Sheet -->
+    <main class="sheet-preview-pane">
+      <div class="resume-sheet template-modern" id="resumeSheet">
+        <header class="sheet-header">
+          <h1 id="previewName">MUSSYYAB TARIQ</h1>
+          <h2 id="previewTitle" class="accent-text">Computer Science Undergraduate</h2>
+          <div class="sheet-meta">
+            <span id="previewLocationWrap"><span id="previewLocation">Samundri, Faisalabad</span></span>
+            <span id="previewPhoneWrap"><span class="dot-sep">•</span><span id="previewPhone">0328-1682447</span></span>
+            <span id="previewEmailWrap"><span class="dot-sep">•</span><span id="previewEmail">mussyyabtariq@gmail.com</span></span>
+            <span id="previewLinkedInWrap"><span class="dot-sep">•</span><span id="previewLinkedIn">linkedin.com/in/musyyab-tariq</span></span>
+            <span id="previewWebsiteWrap"><span class="dot-sep">•</span><span id="previewWebsite">github.com/namal78</span></span>
+          </div>
+        </header>
+
+        <section class="sheet-section">
+          <h3 class="section-title"><span>Professional Profile</span></h3>
+          <p id="previewSummary" class="section-body">Detail-oriented and results-driven Computer Science undergraduate equipped with strong fundamentals in computing systems, algorithmic thinking, and modern web technologies. Demonstrates proven capability in data accuracy, administrative workflow automation, and collaborative problem-solving. Committed to delivering operational excellence and driving organizational value in fast-paced technical environments.</p>
+        </section>
+
+        <section class="sheet-section">
+          <h3 class="section-title"><span>Education</span></h3>
+          <div class="timeline-item">
+            <div class="timeline-head">
+              <strong id="previewDegree">Bachelor of Computer Science (BSCS)</strong>
+              <span class="meta-tag">Undergraduate</span>
+            </div>
+            <p id="previewInstitute" class="meta-sub">Government College University Faisalabad (GCUF) | 2024 - Present</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-head">
+              <strong>Intermediate (Engineering)</strong>
+              <span class="meta-tag">F.Sc</span>
+            </div>
+            <p class="meta-sub">Aspire College | 2022 - 2023</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-head">
+              <strong>Matriculation (Science)</strong>
+              <span class="meta-tag">SSC</span>
+            </div>
+            <p class="meta-sub">New Afaq High School | 2020 - 2021</p>
+          </div>
+        </section>
+
+        <section class="sheet-section">
+          <h3 class="section-title"><span>Technical & Core Skills</span></h3>
+          <div class="skills-cloud" id="previewTechSkills"></div>
+        </section>
+
+        <section class="sheet-section">
+          <h3 class="section-title"><span>Soft Skills & Competencies</span></h3>
+          <div class="skills-cloud" id="previewSoftSkills"></div>
+        </section>
+
+        <section class="sheet-section">
+          <h3 class="section-title"><span>Key Projects</span></h3>
+          <div class="timeline-item">
+            <div class="timeline-head">
+              <strong id="previewProjectTitle">Resume Studio Pro — Web Application</strong>
+            </div>
+            <p id="previewProjectDesc" class="section-body">An ATS-friendly resume generation suite engineered with real-time sheet rendering, customizable design schemes, and zero-loss vector PDF generation.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="leadModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-box">
+      <h3>Download Your Resume</h3>
+      <p>Enter your name and email to proceed with the free PDF download.</p>
+      <input type="text" id="leadName" placeholder="Your Name" required>
+      <input type="email" id="leadEmail" placeholder="Your Email Address" required>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-submit" onclick="submitAndDownload()">Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="resume-script.js"></script>
+</body>
+</html>
