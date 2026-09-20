@@ -784,7 +784,6 @@
         <i data-lucide="menu" id="menuIcon"></i>
       </button>
 
-      <!-- Clean Professional Navbar (No Admin Button visible) -->
       <ul class="nav-menu" id="navMenu">
         <li><a onclick="switchPageView('home')" id="nav-home" class="active"><i data-lucide="home"></i> Home</a></li>
         <li><a onclick="switchPageView('about')" id="nav-about"><i data-lucide="cpu"></i> Academic Journey</a></li>
@@ -1049,7 +1048,6 @@
     </form>
   </div>
 
-  <!-- Professional Footer with Discrete Owner Access Link -->
   <footer>
     <p>&copy; 2026 Mussyyab Tariq • BS Computer Science (GCUF) • Built with Node.js & Three.js</p>
     <a href="admin.html" target="_blank" class="footer-admin-link">
@@ -1095,6 +1093,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Direct & Fail-Proof Contact Form Storage
     function handleClientMessage(e) {
       e.preventDefault();
       const name = document.getElementById('clientName').value.trim();
@@ -1104,21 +1103,26 @@
       if (!name || !email || !message) return;
 
       const inquiry = {
-        name,
-        email,
-        message,
+        id: Date.now(),
+        name: name,
+        email: email,
+        message: message,
         timestamp: new Date().toISOString()
       };
 
       try {
-        let savedInquiries = JSON.parse(localStorage.getItem('mussyyab_client_inquiries') || '[]');
+        let savedInquiries = [];
+        const existing = localStorage.getItem('mussyyab_client_inquiries');
+        if (existing) {
+          savedInquiries = JSON.parse(existing);
+        }
         savedInquiries.push(inquiry);
         localStorage.setItem('mussyyab_client_inquiries', JSON.stringify(savedInquiries));
 
         const banner = document.getElementById('formSuccessBanner');
         if (banner) {
           banner.style.display = 'flex';
-          lucide.createIcons();
+          if (window.lucide) lucide.createIcons();
         }
 
         document.getElementById('clientContactForm').reset();
@@ -1131,6 +1135,7 @@
       }
     }
 
+    // Direct & Fail-Proof AI Bot Chat Storage
     const aiWidgetToggle = document.getElementById('aiWidgetToggle');
     const aiChatWindow = document.getElementById('aiChatWindow');
     const closeChatBtn = document.getElementById('closeChatBtn');
@@ -1151,6 +1156,23 @@
         e.preventDefault();
         const text = chatInput.value.trim();
         if (!text) return;
+
+        // Immediately write to localStorage so admin panel gets it
+        try {
+          let savedChats = [];
+          const existingChats = localStorage.getItem('mussyyab_chat_messages');
+          if (existingChats) {
+            savedChats = JSON.parse(existingChats);
+          }
+          savedChats.push({
+            id: Date.now(),
+            text: text,
+            timestamp: new Date().toISOString()
+          });
+          localStorage.setItem('mussyyab_chat_messages', JSON.stringify(savedChats));
+        } catch (err) {
+          console.error("Chat storage error:", err);
+        }
 
         const userDiv = document.createElement('div');
         userDiv.className = 'chat-msg user';
@@ -1175,10 +1197,6 @@
           } else if (query.includes('hire') || query.includes('price') || query.includes('service')) {
             botDiv.innerHTML = "Yes! Mussyyab is available for web development and freelance projects. You can email him directly at <b>mussyyab@gmail.com</b> or use the <i>Connect</i> form.";
           } else {
-            let savedChats = JSON.parse(localStorage.getItem('mussyyab_chat_messages') || '[]');
-            savedChats.push({ text: text, timestamp: new Date().toISOString() });
-            localStorage.setItem('mussyyab_chat_messages', JSON.stringify(savedChats));
-
             botDiv.innerHTML = "Thanks for your message! I've saved it in Mussyyab's inbox. You can also email him directly at <b>mussyyab@gmail.com</b>.";
           }
 
