@@ -1,269 +1,669 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mussyyab Portfolio — Admin Control Center</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass-card { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Mussyyab Tariq</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg-dark: #05070d;
+      --card-bg: rgba(13, 18, 30, 0.85);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --cyan: #06b6d4;
+      --indigo: #6366f1;
+      --blue-glow: rgba(6, 182, 212, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Auth Gate Modal */
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 13, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 36px 30px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    }
+
+    .auth-box h2 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .auth-box p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .auth-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 2px;
+      outline: none;
+      margin-bottom: 16px;
+    }
+
+    .auth-input:focus {
+      border-color: var(--cyan);
+    }
+
+    .btn-auth {
+      width: 100%;
+      background: linear-gradient(135deg, var(--cyan), var(--indigo));
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .auth-error {
+      color: #f87171;
+      font-size: 0.85rem;
+      margin-top: 12px;
+      display: none;
+    }
+
+    /* Main Dashboard Layout */
+    #dashboardContent {
+      display: none;
+      padding: 30px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .badge-admin {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--cyan);
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-action {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-danger {
+      color: #f87171;
+      border-color: rgba(248, 113, 113, 0.3);
+    }
+
+    /* Form & Cards */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .section-header h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group.full {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .input-box {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .input-box:focus {
+      border-color: var(--cyan);
+    }
+
+    .btn-submit-project {
+      background: linear-gradient(135deg, var(--cyan), var(--indigo));
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Project List Grid */
+    .project-admin-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .project-admin-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-admin-item h3 {
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .project-admin-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--cyan);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .project-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 12px;
+    }
+
+    .btn-delete-proj {
+      background: rgba(248, 113, 113, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      padding: 12px 16px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    td {
+      padding: 14px 16px;
+      font-size: 0.88rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: top;
+    }
+
+    .empty-text {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 24px;
+      font-style: italic;
+    }
+
+    @media screen and (max-width: 768px) {
+      .form-grid, .project-admin-list {
+        grid-template-columns: 1fr;
+      }
+      .form-group.full {
+        grid-column: span 1;
+      }
+    }
+  </style>
 </head>
-<body class="bg-[#090d16] text-slate-200 min-h-screen p-4 sm:p-8">
+<body>
 
-    <div class="max-w-6xl mx-auto">
-        <!-- Top Navbar -->
-        <div class="flex items-center justify-between pb-6 border-b border-slate-800 mb-8">
-            <div class="flex items-center gap-3">
-                <img src="/profile.jpg" class="h-10 w-10 rounded-xl object-cover border border-indigo-500/40" />
-                <div>
-                    <h1 class="text-xl font-bold text-white">Mussyyab's Control Center</h1>
-                    <p class="text-xs text-slate-400">Add New Projects, Manage Timeline & View Client Inquiries</p>
-                </div>
-            </div>
-            <a href="/" class="text-xs font-semibold text-indigo-400 hover:text-white border border-indigo-500/30 px-3.5 py-1.5 rounded-xl transition">← View Live Portfolio</a>
+  <!-- Password Protected Login Modal -->
+  <div id="authOverlay">
+    <div class="auth-box">
+      <div style="width:48px; height:48px; border-radius:12px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.3); display:inline-flex; align-items:center; justify-content:center; color:var(--cyan); margin-bottom:14px;">
+        <i data-lucide="lock"></i>
+      </div>
+      <h2>Protected Admin Area</h2>
+      <p>Enter your developer passcode to access</p>
+      
+      <form onsubmit="handleAuth(event)">
+        <input type="password" id="passcodeInput" class="auth-input" placeholder="Passcode" autocomplete="off" autofocus required>
+        <button type="submit" class="btn-auth">Unlock Dashboard</button>
+      </form>
+      <div id="authError" class="auth-error">Incorrect passcode. Access denied.</div>
+    </div>
+  </div>
+
+  <!-- Protected Admin Dashboard Content -->
+  <div id="dashboardContent">
+    
+    <header class="top-header">
+      <div class="brand-title">
+        <i data-lucide="shield-check" style="color:var(--cyan);"></i>
+        <h1>Admin Control Panel</h1>
+        <span class="badge-admin">Mussyyab Tariq</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn-action btn-danger" onclick="logoutAdmin()">
+          <i data-lucide="log-out"></i> Logout
+        </button>
+        <a href="index.html" class="btn-action">
+          <i data-lucide="external-link"></i> Open Site
+        </a>
+      </div>
+    </header>
+
+    <!-- Project Management: Add New Project -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2><i data-lucide="folder-plus"></i> Add New Project</h2>
+      </div>
+      <form id="addProjectForm" onsubmit="handleAddProject(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Project Title</label>
+            <input type="text" id="projTitle" class="input-box" placeholder="e.g. EduPulse ERP" required>
+          </div>
+          <div class="form-group">
+            <label>Project Live Link / File Name</label>
+            <input type="text" id="projLink" class="input-box" placeholder="e.g. attendance-app.html" required>
+          </div>
+          <div class="form-group full">
+            <label>Tech Stack Tags (Comma separated)</label>
+            <input type="text" id="projTags" class="input-box" placeholder="e.g. Node.js, Express, MongoDB, Tailwind" required>
+          </div>
+          <div class="form-group full">
+            <label>Project Description</label>
+            <textarea id="projDesc" class="input-box" rows="3" placeholder="Brief summary of what this application does..." required></textarea>
+          </div>
         </div>
-
-        <!-- Login Form (If Locked) -->
-        <div id="authSection" class="max-w-md mx-auto py-16">
-            <div class="glass-card p-8 rounded-3xl text-center shadow-2xl">
-                <div class="text-4xl mb-3">🔐</div>
-                <h2 class="text-lg font-bold text-white mb-2">Admin Authentication</h2>
-                <p class="text-xs text-slate-400 mb-6">Enter your master password to access controls.</p>
-                <input type="password" id="adminPassInput" placeholder="Enter password (e.g. mussyyab123)" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-3 text-xs text-center text-white mb-4 focus:outline-none focus:border-indigo-500" onkeydown="if(event.key==='Enter') loginAdmin()" />
-                <button onclick="loginAdmin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-3 rounded-xl shadow-lg shadow-indigo-600/20 transition">Unlock Dashboard ⚡</button>
-            </div>
-        </div>
-
-        <!-- Main Dashboard (After Login) -->
-        <div id="dashboardSection" class="hidden space-y-10">
-            
-            <!-- Projects Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Add New Project Form -->
-                <div class="glass-card p-6 rounded-3xl border border-slate-800">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="text-indigo-400 text-lg">🚀</span>
-                        <h2 class="text-base font-bold text-white">Add New Project</h2>
-                    </div>
-                    <form id="addProjectForm" class="space-y-3">
-                        <div>
-                            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Project Title</label>
-                            <input type="text" id="pTitle" required placeholder="e.g. Crypto Trading Dashboard" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500" />
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Category</label>
-                                <select id="pCategory" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
-                                    <option value="ai">AI / SaaS</option>
-                                    <option value="management">Management / DB</option>
-                                    <option value="ecommerce">E-Commerce</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Badge</label>
-                                <input type="text" id="pBadge" placeholder="e.g. Live Tool" value="Live Tool" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500" />
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Live Demo URL</label>
-                            <input type="url" id="pLiveUrl" required placeholder="https://yourproject.netlify.app" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500" />
-                        </div>
-                        <div>
-                            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Button Label</label>
-                            <input type="text" id="pBtnText" placeholder="Launch Live Demo" value="Launch Live Demo" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500" />
-                        </div>
-                        <div>
-                            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Tags (Comma separated)</label>
-                            <input type="text" id="pTags" placeholder="React, Node.js, MongoDB, Tailwind" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500" />
-                        </div>
-                        <div>
-                            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Description (Non-Tech Explanation)</label>
-                            <textarea id="pDesc" rows="2" required placeholder="What does this project do for a client?" class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">How I Solved It (Technical Proof)</label>
-                            <input type="text" id="pSolution" placeholder="Engineered dynamic query cache to prevent latency." class="w-full bg-[#090d16] border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500" />
-                        </div>
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-3 rounded-xl shadow-lg shadow-indigo-600/20 transition">Save & Publish Project ⚡</button>
-                    </form>
-                </div>
-
-                <!-- Active Projects List -->
-                <div class="glass-card p-6 rounded-3xl border border-slate-800 lg:col-span-2 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-base font-bold text-white">📁 Published Projects</h2>
-                            <span class="text-xs text-slate-400">Click Delete to remove any project</span>
-                        </div>
-                        <div id="adminProjectList" class="space-y-3 max-h-[500px] overflow-y-auto pr-1"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Client Inquiries (Messages) -->
-            <div class="glass-card p-6 rounded-3xl border border-slate-800">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center gap-2">
-                        <span class="text-emerald-400 text-lg">📬</span>
-                        <h2 class="text-base font-bold text-white">Client Inquiries & Leads</h2>
-                    </div>
-                    <button onclick="loadInquiries()" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold">Refresh Messages ⟳</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs text-slate-300">
-                        <thead class="text-[10px] uppercase text-slate-400 border-b border-slate-800">
-                            <tr>
-                                <th class="p-3">Client Name</th>
-                                <th class="p-3">Email Address</th>
-                                <th class="p-3">Project Scope / Details</th>
-                                <th class="p-3">Received Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inquiriesTableBody" class="divide-y divide-slate-800"></tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
+        <button type="submit" class="btn-submit-project">
+          <i data-lucide="plus-circle"></i> Save & Add Project
+        </button>
+      </form>
     </div>
 
-    <script>
-        let adminPass = '';
+    <!-- Project Management: Existing Projects List with Remove Feature -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2><i data-lucide="layers"></i> Current Projects</h2>
+        <span id="projCountBadge" class="badge-admin">0 Projects</span>
+      </div>
+      <div class="project-admin-list" id="projectAdminList">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
 
-        async function loginAdmin() {
-            const input = document.getElementById('adminPassInput').value.trim();
-            if (!input) return alert('Please enter password!');
-            try {
-                const res = await fetch('/api/admin/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password: input })
-                });
-                const data = await res.json();
-                if (res.ok && data.success) {
-                    adminPass = input;
-                    document.getElementById('authSection').classList.add('hidden');
-                    document.getElementById('dashboardSection').classList.remove('hidden');
-                    loadAdminProjects();
-                    loadInquiries();
-                } else {
-                    alert('❌ Ghalat Password!');
-                }
-            } catch (e) {
-                alert('Connection error. Server check karein.');
-            }
-        }
+    <!-- Client Contact Form Inquiries -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2><i data-lucide="inbox"></i> Client Contact Form Inquiries</h2>
+        <button class="btn-action btn-danger" style="padding:5px 12px; font-size:0.75rem;" onclick="clearFormMessages()">
+          <i data-lucide="trash"></i> Clear Form Logs
+        </button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Client Name</th>
+              <th>Email</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody id="inquiriesTableBody"></tbody>
+        </table>
+      </div>
+    </div>
 
-        async function loadAdminProjects() {
-            const list = document.getElementById('adminProjectList');
-            try {
-                const res = await fetch('/api/projects');
-                const data = await res.json();
-                if (!data.length) {
-                    list.innerHTML = '<p class="text-slate-500 text-xs py-4">No projects yet.</p>';
-                    return;
-                }
-                list.innerHTML = data.map(p => `
-                    <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-4">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold text-white">${p.title}</span>
-                                <span class="text-[10px] bg-slate-800 text-indigo-300 px-2 py-0.5 rounded">${p.category}</span>
-                            </div>
-                            <p class="text-[11px] text-slate-400 mt-1">${p.description ? p.description.slice(0, 80) + '...' : ''}</p>
-                            <a href="${p.liveUrl}" target="_blank" class="text-[10px] text-indigo-400 hover:underline inline-block mt-1">Live Link ↗</a>
-                        </div>
-                        <button onclick="deleteProject('${p._id}')" class="text-rose-400 hover:text-rose-300 border border-rose-500/20 hover:border-rose-500/40 bg-rose-500/10 text-xs px-3 py-1.5 rounded-xl transition shrink-0">
-                          Delete ✕
-                        </button>
-                    </div>
-                `).join('');
-            } catch (e) {
-                list.innerHTML = '<p class="text-rose-400 text-xs">Error loading projects.</p>';
-            }
-        }
+    <!-- AI Assistant Chat Logs -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2><i data-lucide="bot"></i> AI Assistant Chat Logs</h2>
+        <button class="btn-action btn-danger" style="padding:5px 12px; font-size:0.75rem;" onclick="clearChatLogs()">
+          <i data-lucide="trash"></i> Clear Chat Logs
+        </button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Date & Time</th>
+              <th>Visitor Inquiry / Question</th>
+            </tr>
+          </thead>
+          <tbody id="chatTableBody"></tbody>
+        </table>
+      </div>
+    </div>
 
-        document.getElementById('addProjectForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.innerText = 'Publishing...';
-            submitBtn.disabled = true;
+  </div>
 
-            const payload = {
-                adminPassword: adminPass,
-                title: document.getElementById('pTitle').value,
-                category: document.getElementById('pCategory').value,
-                badge: document.getElementById('pBadge').value,
-                liveUrl: document.getElementById('pLiveUrl').value,
-                buttonText: document.getElementById('pBtnText').value,
-                tags: document.getElementById('pTags').value,
-                description: document.getElementById('pDesc').value,
-                solution: document.getElementById('pSolution').value
-            };
+  <script>
+    lucide.createIcons();
 
-            try {
-                const res = await fetch('/api/projects', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (res.ok) {
-                    alert('✅ Mubarak! Naya Project Database mein live add ho gaya hai.');
-                    document.getElementById('addProjectForm').reset();
-                    loadAdminProjects();
-                } else {
-                    alert('Error adding project.');
-                }
-            } catch (err) {
-                alert('Server connection error.');
-            } finally {
-                submitBtn.innerText = 'Save & Publish Project ⚡';
-                submitBtn.disabled = false;
-            }
-        });
+    const PASSCODE = "mussyyab123";
 
-        async function deleteProject(id) {
-            if (!confirm('Kya aap waqai is project ko delete karna chahte hain?')) return;
-            try {
-                const res = await fetch('/api/projects/' + id, {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminPassword: adminPass })
-                });
-                if (res.ok) {
-                    loadAdminProjects();
-                }
-            } catch (err) {
-                alert('Delete request failed.');
-            }
-        }
+    // Authentication Gate Check
+    function checkAuth() {
+      if (sessionStorage.getItem('mussyyab_admin_logged') === 'true') {
+        document.getElementById('authOverlay').style.display = 'none';
+        document.getElementById('dashboardContent').style.display = 'block';
+        loadDashboard();
+      }
+    }
 
-        async function loadInquiries() {
-            const tbody = document.getElementById('inquiriesTableBody');
-            try {
-                const res = await fetch('/api/inquiries', {
-                    headers: { 'x-admin-password': adminPass }
-                });
-                const data = await res.json();
-                if (!data.length) {
-                    tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-500">Abhi tak koi message nahi aaya.</td></tr>';
-                    return;
-                }
-                tbody.innerHTML = data.map(item => `
-                    <tr>
-                        <td class="p-3 font-semibold text-white">${item.name}</td>
-                        <td class="p-3 text-indigo-400">${item.email}</td>
-                        <td class="p-3 text-slate-300 max-w-xs">${item.scope}</td>
-                        <td class="p-3 text-slate-400 text-[11px]">${new Date(item.createdAt).toLocaleDateString()}</td>
-                    </tr>
-                `).join('');
-            } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-rose-400">Error loading inquiries.</td></tr>';
-            }
-        }
-    </script>
+    function handleAuth(e) {
+      e.preventDefault();
+      const entered = document.getElementById('passcodeInput').value;
+      if (entered === PASSCODE) {
+        sessionStorage.setItem('mussyyab_admin_logged', 'true');
+        document.getElementById('authOverlay').style.display = 'none';
+        document.getElementById('dashboardContent').style.display = 'block';
+        loadDashboard();
+      } else {
+        document.getElementById('authError').style.display = 'block';
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('mussyyab_admin_logged');
+      location.reload();
+    }
+
+    // Default Starting Projects
+    const defaultProjects = [
+      {
+        id: 1,
+        title: "Resume Studio Pro",
+        link: "resume-app.html",
+        tags: ["JavaScript", "HTML5/CSS3", "ATS Ready", "Vector PDF"],
+        desc: "A responsive ATS-friendly resume studio allowing real-time form bindings, templates, and PDF exports."
+      },
+      {
+        id: 2,
+        title: "EduPulse Attendance ERP",
+        link: "attendance-app.html",
+        tags: ["Tailwind CSS", "Local Storage", "KPI Ledger", "Roll Call"],
+        desc: "Institutional teacher ledger enabling daily roll-calls (P/A/L), compliance trackers, and auto reporting."
+      }
+    ];
+
+    // Project Management
+    function getProjects() {
+      const stored = localStorage.getItem('mussyyab_portfolio_projects');
+      if (!stored) {
+        localStorage.setItem('mussyyab_portfolio_projects', JSON.stringify(defaultProjects));
+        return defaultProjects;
+      }
+      return JSON.parse(stored);
+    }
+
+    function renderProjects() {
+      const projects = getProjects();
+      const container = document.getElementById('projectAdminList');
+      document.getElementById('projCountBadge').textContent = `${projects.length} Projects`;
+
+      if (projects.length === 0) {
+        container.innerHTML = `<div class="empty-text" style="grid-column: span 2;">No projects found. Add one above!</div>`;
+        return;
+      }
+
+      container.innerHTML = projects.map(p => `
+        <div class="project-admin-item">
+          <div>
+            <h3>${p.title}</h3>
+            <p>${p.desc}</p>
+            <div class="project-tags">
+              ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="${p.link}" target="_blank" style="color:var(--cyan); font-size:0.82rem; text-decoration:none;">View Link</a>
+            <button class="btn-delete-proj" onclick="removeProject(${p.id})">
+              <i data-lucide="trash-2" style="width:14px; height:14px;"></i> Remove
+            </button>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function handleAddProject(e) {
+      e.preventDefault();
+      const title = document.getElementById('projTitle').value.trim();
+      const link = document.getElementById('projLink').value.trim();
+      const tagsStr = document.getElementById('projTags').value.trim();
+      const desc = document.getElementById('projDesc').value.trim();
+
+      if (!title || !link || !desc) return;
+
+      const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(Boolean) : ["Web App"];
+      const projects = getProjects();
+
+      const newProj = {
+        id: Date.now(),
+        title,
+        link,
+        tags,
+        desc
+      };
+
+      projects.unshift(newProj);
+      localStorage.setItem('mussyyab_portfolio_projects', JSON.stringify(projects));
+      document.getElementById('addProjectForm').reset();
+      renderProjects();
+    }
+
+    function removeProject(id) {
+      if (confirm("Are you sure you want to remove this project?")) {
+        let projects = getProjects();
+        projects = projects.filter(p => p.id !== id);
+        localStorage.setItem('mussyyab_portfolio_projects', JSON.stringify(projects));
+        renderProjects();
+      }
+    }
+
+    // Load Inquiries & Chat Logs
+    function renderInquiries() {
+      const inquiries = JSON.parse(localStorage.getItem('mussyyab_client_inquiries') || '[]');
+      const inquiryBody = document.getElementById('inquiriesTableBody');
+
+      if (inquiries.length === 0) {
+        inquiryBody.innerHTML = `<tr><td colspan="4" class="empty-text">No form submissions yet.</td></tr>`;
+      } else {
+        inquiryBody.innerHTML = inquiries.slice().reverse().map(item => `
+          <tr>
+            <td style="color:var(--text-muted); font-size:0.8rem;">${new Date(item.timestamp).toLocaleString()}</td>
+            <td><strong>${item.name}</strong></td>
+            <td><a href="mailto:${item.email}" style="color:var(--cyan); text-decoration:none;">${item.email}</a></td>
+            <td>${item.message}</td>
+          </tr>
+        `).join('');
+      }
+
+      const chats = JSON.parse(localStorage.getItem('mussyyab_chat_messages') || '[]');
+      const chatBody = document.getElementById('chatTableBody');
+
+      if (chats.length === 0) {
+        chatBody.innerHTML = `<tr><td colspan="2" class="empty-text">No chat messages recorded yet.</td></tr>`;
+      } else {
+        chatBody.innerHTML = chats.slice().reverse().map(chat => `
+          <tr>
+            <td style="color:var(--text-muted); font-size:0.8rem; width:180px;">${new Date(chat.timestamp).toLocaleString()}</td>
+            <td>${chat.text}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function clearFormMessages() {
+      if (confirm("Clear all contact form messages?")) {
+        localStorage.removeItem('mussyyab_client_inquiries');
+        renderInquiries();
+      }
+    }
+
+    function clearChatLogs() {
+      if (confirm("Clear all AI chat messages?")) {
+        localStorage.removeItem('mussyyab_chat_messages');
+        renderInquiries();
+      }
+    }
+
+    function loadDashboard() {
+      renderProjects();
+      renderInquiries();
+      lucide.createIcons();
+    }
+
+    checkAuth();
+  </script>
 </body>
 </html>
