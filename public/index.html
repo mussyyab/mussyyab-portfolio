@@ -350,7 +350,7 @@
               <label>Message & Details</label>
               <textarea id="clientMessageText" class="form-input" rows="4" placeholder="Write your message here..." required></textarea>
             </div>
-            <button type="submit" class="btn-3d-primary" style="width:100%; justify-content:center;">
+            <button type="submit" id="submitBtn" class="btn-3d-primary" style="width:100%; justify-content:center;">
               <i data-lucide="send"></i> Send Message
             </button>
           </form>
@@ -436,34 +436,29 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Direct World-Wide Send to Backend Server
+    // Direct Guaranteed Server Dispatch for Form
     async function handleClientMessage(e) {
       e.preventDefault();
       const name = document.getElementById('clientName').value.trim();
       const email = document.getElementById('clientEmail').value.trim();
       const message = document.getElementById('clientMessageText').value.trim();
+      const btn = document.getElementById('submitBtn');
 
       if (!name || !email || !message) return;
 
-      const payload = { name, email, message };
+      btn.disabled = true;
+      btn.innerHTML = `<i data-lucide="loader-2" class="spin"></i> Sending...`;
+      if (window.lucide) lucide.createIcons();
 
-      // 1. Send to live Central Server (for you to see on admin panel)
       try {
         await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({ name, email, message })
         });
       } catch (err) {
-        console.log("Server sync fallback");
+        console.error("Post error:", err);
       }
-
-      // 2. Backup in local storage
-      try {
-        let saved = JSON.parse(localStorage.getItem('mussyyab_client_inquiries') || '[]');
-        saved.push({ ...payload, timestamp: new Date().toISOString() });
-        localStorage.setItem('mussyyab_client_inquiries', JSON.stringify(saved));
-      } catch(e){}
 
       const banner = document.getElementById('formSuccessBanner');
       if (banner) {
@@ -472,12 +467,16 @@
       }
 
       document.getElementById('clientContactForm').reset();
+      btn.disabled = false;
+      btn.innerHTML = `<i data-lucide="send"></i> Send Message`;
+      if (window.lucide) lucide.createIcons();
+
       setTimeout(() => {
         if (banner) banner.style.display = 'none';
       }, 5000);
     }
 
-    // AI Chatbot with Server Global Sync
+    // Guaranteed Server Dispatch for AI Chatbot
     const aiWidgetToggle = document.getElementById('aiWidgetToggle');
     const aiChatWindow = document.getElementById('aiChatWindow');
     const closeChatBtn = document.getElementById('closeChatBtn');
@@ -494,26 +493,17 @@
     if (closeChatBtn) closeChatBtn.addEventListener('click', toggleChatWindow);
 
     if (chatForm) {
-      chatForm.addEventListener('submit', async (e) => {
+      chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const text = chatInput.value.trim();
         if (!text) return;
 
-        // 1. Send chat message to Server so Admin Panel logs it from anyone
-        try {
-          fetch('/api/chat-inquiry', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text })
-          });
-        } catch (err) {}
-
-        // 2. Local fallback
-        try {
-          let chats = JSON.parse(localStorage.getItem('mussyyab_chat_messages') || '[]');
-          chats.push({ text, timestamp: new Date().toISOString() });
-          localStorage.setItem('mussyyab_chat_messages', JSON.stringify(chats));
-        } catch(e){}
+        // Post chat inquiry immediately to Server
+        fetch('/api/chat-inquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text })
+        }).catch(err => console.error(err));
 
         const userDiv = document.createElement('div');
         userDiv.className = 'chat-msg user';
