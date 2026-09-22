@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudCost | Architecture & Server Estimator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg-dark: #05070d;
+      --card-bg: rgba(13, 18, 30, 0.85);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --cyan: #06b6d4;
+      --indigo: #6366f1;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding: 24px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--card-border); margin-bottom: 30px; }
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .logo-badge { width: 40px; height: 40px; border-radius: 10px; background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.3); display: flex; align-items: center; justify-content: center; color: var(--cyan); }
+    .back-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.88rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+    .back-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+
+    .calc-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; }
+    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 26px; }
+    
+    .slider-group { margin-bottom: 24px; }
+    .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .slider-title { font-size: 0.9rem; font-weight: 600; color: #fff; }
+    .slider-val { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--cyan); }
+    input[type=range] { width: 100%; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.1); outline: none; accent-color: var(--cyan); cursor: pointer; }
+
+    .cost-display { text-align: center; padding: 24px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--card-border); border-radius: 14px; margin-bottom: 20px; }
+    .cost-num { font-size: 2.8rem; font-weight: 800; color: #fff; }
+    .cost-num span { font-size: 1.1rem; color: var(--cyan); }
+    .breakdown-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.88rem; color: var(--text-muted); }
+    .breakdown-row strong { color: #fff; font-family: 'JetBrains Mono', monospace; }
+
+    @media (max-width: 768px) { .calc-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-area">
+        <div class="logo-badge"><i data-lucide="cloud"></i></div>
+        <div>
+          <h2 style="font-size:1.3rem;">CloudCost Architect</h2>
+          <span style="font-size:0.8rem; color:var(--cyan); font-family:'JetBrains Mono',monospace;">Resource & Infrastructure Estimator</span>
+        </div>
+      </div>
+      <a href="index.html#projects" class="back-btn"><i data-lucide="arrow-left"></i> Return to Portfolio</a>
+    </header>
+
+    <div class="calc-grid">
+      <div class="card">
+        <h3 style="margin-bottom:20px; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
+          <i data-lucide="sliders" style="color:var(--cyan);"></i> Configure Server Parameters
+        </h3>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-title">Monthly Active Visitors</span>
+            <span class="slider-val" id="val-users">25,000 / mo</span>
+          </div>
+          <input type="range" id="input-users" min="1000" max="250000" step="1000" value="25000">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-title">Database Storage Volume</span>
+            <span class="slider-val" id="val-db">20 GB</span>
+          </div>
+          <input type="range" id="input-db" min="5" max="200" step="5" value="20">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-title">App Server Compute (vCPU / RAM)</span>
+            <span class="slider-val" id="val-compute">2 Core / 4GB</span>
+          </div>
+          <input type="range" id="input-compute" min="1" max="4" step="1" value="2">
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:16px; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
+          <i data-lucide="credit-card" style="color:var(--cyan);"></i> Estimated Monthly Expense
+        </h3>
+        
+        <div class="cost-display">
+          <div class="cost-num">$<span id="total-cost">27</span></div>
+          <p style="color:var(--text-muted); font-size:0.8rem; margin-top:4px;">Projected Cloud Infrastructure Fee</p>
+        </div>
+
+        <div class="breakdown-row">
+          <span>Compute Cluster</span>
+          <strong id="cost-compute">$20.00</strong>
+        </div>
+        <div class="breakdown-row">
+          <span>Database SSD Storage</span>
+          <strong id="cost-db">$5.00</strong>
+        </div>
+        <div class="breakdown-row">
+          <span>Bandwidth Egress</span>
+          <strong id="cost-bandwidth">$2.00</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
+    const inputUsers = document.getElementById('input-users');
+    const inputDb = document.getElementById('input-db');
+    const inputCompute = document.getElementById('input-compute');
+
+    function calculateCost() {
+      const users = parseInt(inputUsers.value) || 25000;
+      const db = parseInt(inputDb.value) || 20;
+      const compute = parseInt(inputCompute.value) || 2;
+
+      document.getElementById('val-users').textContent = users.toLocaleString() + ' / mo';
+      document.getElementById('val-db').textContent = db + ' GB';
+
+      const computeLabels = {
+        1: '1 Core / 2GB (Standard)',
+        2: '2 Core / 4GB (Production)',
+        3: '4 Core / 8GB (High Traffic)',
+        4: '8 Core / 16GB (Enterprise)'
+      };
+      const computePrices = { 1: 10, 2: 20, 3: 45, 4: 90 };
+
+      document.getElementById('val-compute').textContent = computeLabels[compute] || '2 Core / 4GB';
+
+      const computeCost = computePrices[compute] || 20;
+      const dbCost = Math.round(db * 0.25);
+      const bandwidthCost = Math.round((users / 10000) * 1.5);
+      const total = computeCost + dbCost + bandwidthCost;
+
+      document.getElementById('cost-compute').textContent = '$' + computeCost.toFixed(2);
+      document.getElementById('cost-db').textContent = '$' + dbCost.toFixed(2);
+      document.getElementById('cost-bandwidth').textContent = '$' + bandwidthCost.toFixed(2);
+      document.getElementById('total-cost').textContent = total;
+    }
+
+    inputUsers.addEventListener('input', calculateCost);
+    inputDb.addEventListener('input', calculateCost);
+    inputCompute.addEventListener('input', calculateCost);
+
+    calculateCost();
+  </script>
+</body>
+</html>

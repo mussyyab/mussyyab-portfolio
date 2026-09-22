@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskMatrix | Kanban Sprint Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg-dark: #05070d;
+      --card-bg: rgba(13, 18, 30, 0.85);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --cyan: #06b6d4;
+      --indigo: #6366f1;
+      --purple: #a855f7;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding: 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--card-border); margin-bottom: 24px; }
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .logo-badge { width: 40px; height: 40px; border-radius: 10px; background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.3); display: flex; align-items: center; justify-content: center; color: var(--cyan); }
+    .back-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.88rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+    .back-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+
+    .input-bar { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 16px; margin-bottom: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .input-field { flex: 1; min-width: 240px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px 14px; color: #fff; outline: none; }
+    .select-field { background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px 14px; color: #fff; outline: none; }
+    .btn-add { background: linear-gradient(135deg, var(--cyan), var(--indigo)); color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+    .board-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .column { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 18px; min-height: 520px; display: flex; flex-direction: column; }
+    .column-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--card-border); margin-bottom: 16px; font-size: 0.95rem; font-weight: 700; }
+    .col-count { background: rgba(255, 255, 255, 0.08); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    
+    .task-list { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .task-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px; transition: transform 0.2s; }
+    .task-card:hover { transform: translateY(-2px); border-color: rgba(6, 182, 212, 0.35); }
+    .task-title { font-size: 0.9rem; font-weight: 600; color: #fff; }
+    .task-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; margin-top: 6px; }
+    .priority-badge { padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; }
+    .p-high { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .p-med { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .p-low { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    
+    .actions { display: flex; gap: 6px; }
+    .action-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 2px; }
+    .action-btn:hover { color: #fff; }
+
+    @media (max-width: 860px) { .board-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-area">
+        <div class="logo-badge"><i data-lucide="check-square"></i></div>
+        <div>
+          <h2>TaskMatrix Kanban</h2>
+          <span style="font-size:0.8rem; color:var(--cyan); font-family:'JetBrains Mono',monospace;">Sprint Workflow Suite</span>
+        </div>
+      </div>
+      <a href="index.html#projects" class="back-btn"><i data-lucide="arrow-left"></i> Return to Portfolio</a>
+    </header>
+
+    <div class="input-bar">
+      <input type="text" id="taskTitle" class="input-field" placeholder="Enter sprint item, bug fix, or feature title...">
+      <select id="taskPriority" class="select-field">
+        <option value="High">High Priority</option>
+        <option value="Medium" selected>Medium Priority</option>
+        <option value="Low">Low Priority</option>
+      </select>
+      <button class="btn-add" onclick="addTask()"><i data-lucide="plus"></i> Add Item</button>
+    </div>
+
+    <div class="board-grid">
+      <!-- To Do -->
+      <div class="column">
+        <div class="column-header">
+          <span>To Do</span>
+          <span class="col-count" id="count-todo">0</span>
+        </div>
+        <div class="task-list" id="col-todo"></div>
+      </div>
+
+      <!-- In Progress -->
+      <div class="column">
+        <div class="column-header">
+          <span>In Progress</span>
+          <span class="col-count" id="count-progress">0</span>
+        </div>
+        <div class="task-list" id="col-progress"></div>
+      </div>
+
+      <!-- Completed -->
+      <div class="column">
+        <div class="column-header">
+          <span>Completed</span>
+          <span class="col-count" id="count-done">0</span>
+        </div>
+        <div class="task-list" id="col-done"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    let tasks = JSON.parse(localStorage.getItem('mussyyab_tasks') || '[]');
+
+    if (tasks.length === 0) {
+      tasks = [
+        { id: 1, title: 'Implement Three.js dynamic canvas listener', priority: 'High', status: 'done' },
+        { id: 2, title: 'Refactor REST API payload validations', priority: 'High', status: 'progress' },
+        { id: 3, title: 'Prepare Discrete Structures assignment notes', priority: 'Medium', status: 'todo' },
+        { id: 4, title: 'Optimize ATS resume PDF renderer vectors', priority: 'Low', status: 'todo' }
+      ];
+      saveTasks();
+    }
+
+    function saveTasks() {
+      localStorage.setItem('mussyyab_tasks', JSON.stringify(tasks));
+      renderTasks();
+    }
+
+    function renderTasks() {
+      const todoCol = document.getElementById('col-todo');
+      const progressCol = document.getElementById('col-progress');
+      const doneCol = document.getElementById('col-done');
+
+      todoCol.innerHTML = '';
+      progressCol.innerHTML = '';
+      doneCol.innerHTML = '';
+
+      let cTodo = 0, cProg = 0, cDone = 0;
+
+      tasks.forEach(t => {
+        const badgeClass = t.priority === 'High' ? 'p-high' : t.priority === 'Medium' ? 'p-med' : 'p-low';
+        const card = document.createElement('div');
+        card.className = 'task-card';
+        card.innerHTML = `
+          <div class="task-title">${t.title}</div>
+          <div class="task-footer">
+            <span class="priority-badge ${badgeClass}">${t.priority}</span>
+            <div class="actions">
+              ${t.status !== 'todo' ? `<button class="action-btn" title="Move Back" onclick="moveTask(${t.id}, -1)"><i data-lucide="chevron-left" style="width:14px; height:14px;"></i></button>` : ''}
+              ${t.status !== 'done' ? `<button class="action-btn" title="Move Forward" onclick="moveTask(${t.id}, 1)"><i data-lucide="chevron-right" style="width:14px; height:14px;"></i></button>` : ''}
+              <button class="action-btn" title="Delete" onclick="deleteTask(${t.id})"><i data-lucide="trash-2" style="width:14px; height:14px;"></i></button>
+            </div>
+          </div>
+        `;
+
+        if (t.status === 'todo') { todoCol.appendChild(card); cTodo++; }
+        else if (t.status === 'progress') { progressCol.appendChild(card); cProg++; }
+        else if (t.status === 'done') { doneCol.appendChild(card); cDone++; }
+      });
+
+      document.getElementById('count-todo').textContent = cTodo;
+      document.getElementById('count-progress').textContent = cProg;
+      document.getElementById('count-done').textContent = cDone;
+      lucide.createIcons();
+    }
+
+    function addTask() {
+      const input = document.getElementById('taskTitle');
+      const title = input.value.trim();
+      const priority = document.getElementById('taskPriority').value;
+      if (!title) return;
+
+      tasks.push({ id: Date.now(), title, priority, status: 'todo' });
+      input.value = '';
+      saveTasks();
+    }
+
+    function moveTask(id, dir) {
+      const statuses = ['todo', 'progress', 'done'];
+      tasks = tasks.map(t => {
+        if (t.id === id) {
+          let currIdx = statuses.indexOf(t.status);
+          let newIdx = currIdx + dir;
+          if (newIdx >= 0 && newIdx < statuses.length) {
+            t.status = statuses[newIdx];
+          }
+        }
+        return t;
+      });
+      saveTasks();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      saveTasks();
+    }
+
+    renderTasks();
+  </script>
+</body>
+</html>
