@@ -448,61 +448,164 @@
     .form-input:focus { border-color: var(--cyan); }
     .success-banner { background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; padding: 12px 16px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 16px; display: none; align-items: center; gap: 10px; }
 
+    /* MODERN GLASSMORPHIC AI ASSISTANT */
     .ai-widget-button {
       position: fixed;
       bottom: 26px;
       right: 26px;
-      width: 60px;
-      height: 60px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--cyan), var(--indigo));
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.25);
       color: #ffffff;
-      box-shadow: 0 8px 30px var(--blue-glow);
+      box-shadow: 0 10px 30px var(--blue-glow);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 2000;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    .ai-widget-button:hover { transform: scale(1.08); box-shadow: 0 12px 35px rgba(6, 182, 212, 0.5); }
-    .ai-pulse-dot { position: absolute; top: 2px; right: 2px; width: 12px; height: 12px; background: #10b981; border-radius: 50%; border: 2px solid #05070d; box-shadow: 0 0 8px #10b981; }
+    .ai-widget-button:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 14px 40px rgba(6, 182, 212, 0.55); }
+    .ai-pulse-dot { position: absolute; top: 2px; right: 2px; width: 12px; height: 12px; background: #10b981; border-radius: 50%; border: 2px solid #05070d; box-shadow: 0 0 10px #10b981; }
 
     .ai-chat-window {
       position: fixed;
-      bottom: 100px;
+      bottom: 96px;
       right: 26px;
-      width: 370px;
-      height: 520px;
-      background: #0b111e;
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(20px);
+      width: 380px;
+      height: 540px;
+      background: rgba(10, 15, 28, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(6, 182, 212, 0.15);
+      backdrop-filter: blur(24px);
       display: none;
       flex-direction: column;
       overflow: hidden;
       z-index: 2000;
-      animation: popChat 0.25s ease-out forwards;
+      animation: popChat 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .ai-chat-window.open { display: flex; }
+    @keyframes popChat { from { opacity: 0; transform: translateY(25px) scale(0.92); } to { opacity: 1; transform: translateY(0); } }
+
+    .chat-header {
+      padding: 16px 20px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chat-header-info { display: flex; align-items: center; gap: 12px; }
+    .bot-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(99, 102, 241, 0.2));
+      border: 1px solid rgba(6, 182, 212, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+    }
+    .chat-header-info h4 { font-size: 0.95rem; color: #ffffff; font-weight: 700; }
+    .chat-header-info span { font-size: 0.74rem; color: #34d399; display: flex; align-items: center; gap: 5px; font-family: 'JetBrains Mono', monospace; }
+    .chat-close-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border); border-radius: 8px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .chat-close-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.15); }
+
+    .chat-body {
+      flex: 1;
+      padding: 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .chat-body::-webkit-scrollbar { width: 5px; }
+    .chat-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+
+    .chat-msg {
+      max-width: 86%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      animation: fadeInMsg 0.25s ease-out;
+    }
+    @keyframes fadeInMsg { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .chat-msg.bot {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-primary);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .chat-msg.user {
+      background: linear-gradient(135deg, var(--cyan), var(--indigo));
+      color: #ffffff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
     }
 
-    .ai-chat-window.open { display: flex; }
-    @keyframes popChat { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    /* QUICK ACTION CHIPS */
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 0 16px 10px;
+    }
+    .chip-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chip-btn:hover {
+      color: var(--cyan);
+      border-color: rgba(6, 182, 212, 0.4);
+      background: rgba(6, 182, 212, 0.1);
+    }
 
-    .chat-header { padding: 16px 20px; background: rgba(255, 255, 255, 0.04); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
-    .chat-header-info { display: flex; align-items: center; gap: 10px; }
-    .chat-header-info h4 { font-size: 0.95rem; color: #ffffff; }
-    .chat-header-info span { font-size: 0.75rem; color: var(--cyan); display: flex; align-items: center; gap: 4px; }
-    .chat-close-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; }
-    .chat-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-    .chat-msg { max-width: 84%; padding: 10px 14px; border-radius: 12px; font-size: 0.88rem; line-height: 1.5; }
-    .chat-msg.bot { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--card-border); color: var(--text-primary); align-self: flex-start; border-bottom-left-radius: 2px; }
-    .chat-msg.user { background: linear-gradient(135deg, var(--cyan), var(--indigo)); color: #ffffff; align-self: flex-end; border-bottom-right-radius: 2px; }
-    .chat-input-bar { padding: 12px 14px; border-top: 1px solid var(--card-border); display: flex; gap: 8px; background: rgba(0, 0, 0, 0.2); }
-    .chat-input-bar input { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border); border-radius: 8px; padding: 9px 12px; color: #fff; font-size: 0.88rem; outline: none; }
-    .chat-input-bar button { background: var(--cyan); border: none; border-radius: 8px; width: 38px; color: #05070d; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .chat-input-bar {
+      padding: 12px 14px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.35);
+    }
+    .chat-input-bar input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .chat-input-bar input:focus { border-color: var(--cyan); }
+    .chat-input-bar button {
+      background: linear-gradient(135deg, var(--cyan), var(--indigo));
+      border: none;
+      border-radius: 10px;
+      width: 42px;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px var(--blue-glow);
+    }
 
     footer {
       display: flex;
@@ -828,7 +931,7 @@
       </div>
     </section>
 
-    <!-- VIEW 4: FEATURED PROJECTS (All 4 Real Live Preview Links) -->
+    <!-- VIEW 4: FEATURED PROJECTS -->
     <section id="view-projects" class="page-view">
       <div class="badge-capsule">
         <i data-lucide="layers"></i> Interactive Production Deployments
@@ -920,7 +1023,7 @@
           </div>
         </div>
 
-        <!-- Project 4: CloudCost Architect (FIXED EXACT LINK) -->
+        <!-- Project 4: CloudCost Architect -->
         <div class="project-card-3d">
           <div>
             <div class="project-header">
@@ -1011,7 +1114,7 @@
 
   </main>
 
-  <!-- AI Chat Widget -->
+  <!-- MODERN AI CHAT ASSISTANT WIDGET -->
   <button class="ai-widget-button" id="aiWidgetToggle" aria-label="Open AI Assistant">
     <span class="ai-pulse-dot"></span>
     <i data-lucide="bot" id="aiBtnIcon"></i>
@@ -1020,25 +1123,32 @@
   <div class="ai-chat-window" id="aiChatWindow">
     <div class="chat-header">
       <div class="chat-header-info">
-        <i data-lucide="bot" style="color:var(--cyan);"></i>
+        <div class="bot-avatar"><i data-lucide="sparkles"></i></div>
         <div>
-          <h4>Mussyyab's AI Assistant</h4>
-          <span><span class="status-pulse"></span> Online • BSCS GCUF</span>
+          <h4>Mussyyab's AI</h4>
+          <span><span class="status-pulse"></span> Active • BSCS GCUF</span>
         </div>
       </div>
-      <button class="chat-close-btn" id="closeChatBtn">
+      <button class="chat-close-btn" id="closeChatBtn" aria-label="Close Chat">
         <i data-lucide="x"></i>
       </button>
     </div>
     
     <div class="chat-body" id="chatBody">
       <div class="chat-msg bot">
-        Hello! I'm Mussyyab's virtual assistant. How can I help you today? Feel free to ask about his projects, skills, or contact info!
+        Assalam-o-Alaikum! Main Mussyyab ka portfolio AI assistant hoon. Aap unke web projects, technical experience ya collaboration ke bare mein pooch sakte hain!
       </div>
     </div>
 
+    <!-- Quick Action Chips for Fast Interaction -->
+    <div class="quick-chips">
+      <button class="chip-btn" onclick="sendQuickPrompt('How many projects has Mussyyab built?')">Total Projects?</button>
+      <button class="chip-btn" onclick="sendQuickPrompt('What is Mussyyab\'s experience?')">Experience & Stack</button>
+      <button class="chip-btn" onclick="sendQuickPrompt('How can I contact Mussyyab?')">Contact Info</button>
+    </div>
+
     <form class="chat-input-bar" id="chatForm">
-      <input type="text" id="chatInput" placeholder="Type your message here..." autocomplete="off">
+      <input type="text" id="chatInput" placeholder="Poochhein ya type karein..." autocomplete="off">
       <button type="submit" aria-label="Send message"><i data-lucide="send"></i></button>
     </form>
   </div>
@@ -1169,7 +1279,7 @@
       return false;
     }
 
-    // 3. AI ASSISTANT CHAT
+    // 3. SMART INTENT-BASED AI ENGINE
     const aiWidgetToggle = document.getElementById('aiWidgetToggle');
     const aiChatWindow = document.getElementById('aiChatWindow');
     const closeChatBtn = document.getElementById('closeChatBtn');
@@ -1185,46 +1295,100 @@
     if (aiWidgetToggle) aiWidgetToggle.addEventListener('click', toggleChatWindow);
     if (closeChatBtn) closeChatBtn.addEventListener('click', toggleChatWindow);
 
+    function sendQuickPrompt(promptText) {
+      chatInput.value = promptText;
+      processChatMessage(promptText);
+    }
+
+    function getSmartBotReply(q) {
+      q = q.toLowerCase().trim();
+
+      // 1. Greetings & Salam
+      if (q.includes('aoa') || q.includes('assalam') || q.includes('salam') || q.includes('slam')) {
+        return "Wa Alaikum Assalam! Khush-amdeed. Main Mussyyab ka portfolio assistant hoon. Aap projects dekhna chahte hain ya hiring ke mutalliq baat karni hai?";
+      }
+      if (q.includes('how are you') || q.includes('kese ho') || q.includes('kaise ho') || q.includes('kya hal')) {
+        return "Alhamdulillah, main bilkul theek hoon! Aap batayein aaj Mussyyab ke portfolio par kya explore karna chahenge?";
+      }
+      if (q === 'hi' || q === 'hello' || q === 'hey' || q.startsWith('hi ') || q.startsWith('hello ')) {
+        return "Hello! Great to have you here. Feel free to ask about Mussyyab's live web tools, skills, or GCUF academic background.";
+      }
+
+      // 2. Total Projects & Work
+      if (q.includes('kitna project') || q.includes('kitne project') || q.includes('how many project') || q.includes('total project') || q.includes('number of project') || q.includes('list project')) {
+        return "Mussyyab ke is portfolio par **4 Live Production Projects** deployed hain:<br><br>" +
+               "1. <b>Resume Studio Pro:</b> ATS-friendly real-time vector PDF builder.<br>" +
+               "2. <b>EduPulse Attendance ERP:</b> Teacher daily roll-call ledger.<br>" +
+               "3. <b>TaskMatrix Kanban:</b> Drag-and-drop sprint task board.<br>" +
+               "4. <b>CloudCost Architect:</b> Server compute & monthly pricing calculator.<br><br>" +
+               "Aap in sabka Live Preview 'Projects' tab mein test kar sakte hain!";
+      }
+
+      // 3. Experience & Time Period
+      if (q.includes('experience') || q.includes('how many year') || q.includes('kitna saal') || q.includes('kitne saal') || q.includes('kitna time') || q.includes('working in web')) {
+        return "Mussyyab pichle **2+ saalon se modern web development** mein actively kaam kar rahe hain. Unhone foundational C++ aur algorithms se shuru karke modern full-stack (Node.js, Express, JavaScript ES6+, MongoDB) aur 3D graphics (Three.js) par hands-on command hasil ki hai.";
+      }
+
+      // 4. Tech Stack & Programming Languages
+      if (q.includes('stack') || q.includes('technology') || q.includes('technologies') || q.includes('skills') || q.includes('language') || q.includes('tools')) {
+        return "Mussyyab ka primary technical stack yeh hai:<br><br>" +
+               "• <b>Languages:</b> C++ (Data Structures/OOP), JavaScript (ES6+), HTML5, CSS3<br>" +
+               "• <b>Backend & DB:</b> Node.js, Express.js, RESTful APIs, MongoDB<br>" +
+               "• <b>UI & 3D:</b> Three.js (WebGL), Tailwind CSS, Lucide Icons<br>" +
+               "• <b>DevOps:</b> Git, GitHub, Render Cloud Deployment.";
+      }
+
+      // 5. Education & GCUF Degree
+      if (q.includes('education') || q.includes('degree') || q.includes('university') || q.includes('gcuf') || q.includes('study') || q.includes('parh')) {
+        return "Mussyyab <b>Government College University Faisalabad (GCUF)</b> se <b>BS Computer Science (Session 2024–2028)</b> kar rahe hain. Core focus Data Structures, Discrete Math, aur Object-Oriented Software Design par hai.";
+      }
+
+      // 6. Contact & Hiring / Freelance
+      if (q.includes('contact') || q.includes('hire') || q.includes('email') || q.includes('phone') || q.includes('whatsapp') || q.includes('reach') || q.includes('rabta')) {
+        return "Aap Mussyyab se direct contact kar sakte hain:<br><br>" +
+               "📧 <b>Email:</b> mussyyab@gmail.com<br>" +
+               "💼 <b>LinkedIn/GitHub:</b> github.com/mussyyab<br>" +
+               "Ya aap is website ke 'Connect' page se direct message submit kar sakte hain!";
+      }
+
+      // 7. Who is Mussyyab?
+      if (q.includes('who') || q.includes('kaun hai') || q.includes('about mussyyab')) {
+        return "Mussyyab Tariq Faisalabad ke Computer Science undergraduate aur full-stack web developer hain jo modern, fast aur vector-clean web applications develop karte hain.";
+      }
+
+      // 8. Fallback
+      return "Main aapka yeh message Mussyyab ke backend portal par save kar raha hoon taake woh aapse rabta kar sakein. Mazeed details ke liye aap direct <b>mussyyab@gmail.com</b> par likh sakte hain!";
+    }
+
+    function processChatMessage(text) {
+      if (!text) return;
+
+      fetch('/api/chat-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      }).catch(err => console.error(err));
+
+      const userDiv = document.createElement('div');
+      userDiv.className = 'chat-msg user';
+      userDiv.textContent = text;
+      chatBody.appendChild(userDiv);
+      chatInput.value = '';
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      setTimeout(() => {
+        const botDiv = document.createElement('div');
+        botDiv.className = 'chat-msg bot';
+        botDiv.innerHTML = getSmartBotReply(text);
+        chatBody.appendChild(botDiv);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, 400);
+    }
+
     if (chatForm) {
       chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const text = chatInput.value.trim();
-        if (!text) return;
-
-        fetch('/api/chat-inquiry', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text })
-        }).catch(err => console.error(err));
-
-        const userDiv = document.createElement('div');
-        userDiv.className = 'chat-msg user';
-        userDiv.textContent = text;
-        chatBody.appendChild(userDiv);
-        chatInput.value = '';
-
-        setTimeout(() => {
-          const botDiv = document.createElement('div');
-          botDiv.className = 'chat-msg bot';
-          const query = text.toLowerCase();
-          
-          if (query.includes('hi') || query.includes('hello') || query.includes('salam') || query.includes('hey')) {
-            botDiv.innerHTML = "Hello there! Welcome to Mussyyab's portfolio. Are you looking to explore his projects or discuss web development work?";
-          } else if (query.includes('who') || query.includes('mussyyab') || query.includes('about')) {
-            botDiv.innerHTML = "Mussyyab Tariq is a Computer Science undergraduate at GCUF (2024–2028) specializing in modern web tools and backend architectures.";
-          } else if (query.includes('project') || query.includes('work') || query.includes('app')) {
-            botDiv.innerHTML = "Mussyyab has engineered 4 major applications: <b>Resume Studio Pro</b>, <b>EduPulse ERP</b>, <b>TaskMatrix Kanban</b>, and <b>CloudCost Architect</b>. Check the Projects tab!";
-          } else if (query.includes('skill') || query.includes('experience') || query.includes('tech')) {
-            botDiv.innerHTML = "Core technologies include C++, JavaScript (ES6+), Node.js, Express, Tailwind CSS, MongoDB, and Three.js.";
-          } else {
-            botDiv.innerHTML = "Thanks for your inquiry! I've logged this directly to Mussyyab's central portal. You can also reach him at <b>mussyyab@gmail.com</b>.";
-          }
-
-          chatBody.appendChild(botDiv);
-          chatBody.scrollTop = chatBody.scrollHeight;
-        }, 500);
-
-        chatBody.scrollTop = chatBody.scrollHeight;
+        processChatMessage(chatInput.value.trim());
       });
     }
 
